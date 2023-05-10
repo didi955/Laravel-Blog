@@ -10,8 +10,6 @@ use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

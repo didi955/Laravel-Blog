@@ -12,10 +12,11 @@ use App\Utilities\FilterContent;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index() : View
     {
         return view('admin.posts.index', [
             'posts' => Post::latest()
@@ -81,7 +82,8 @@ class PostController extends Controller
         ]);
     }
 
-    public function edit(Post $post){
+    public function edit(Post $post) : View
+    {
         return view('admin.posts.edit', [
             'post' => $post,
             'categories' => Category::all()
@@ -122,7 +124,8 @@ class PostController extends Controller
         return $attributes;
     }
 
-    private function triggerPublish(Post $post){
+    private function triggerPublish(Post $post) : void
+    {
         if($post->is_published){
             event(new PostPublished($post));
         }

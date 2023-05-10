@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class SessionsController extends Controller
 {
 
-    public function create()
+    public function create(): View
     {
         return view('sessions.create');
     }
@@ -21,7 +23,7 @@ class SessionsController extends Controller
     /**
      * @throws ValidationException
      */
-    public function store()
+    public function store(): RedirectResponse
     {
         $attributes = request()->validate([
             'email' => ['required', 'email', Rule::exists('users', 'email')],
@@ -31,7 +33,7 @@ class SessionsController extends Controller
 
         $remember = (bool)request('remember');
 
-        if (!auth()->attempt($attributes, $remember)) {
+        if (!Auth::attempt($attributes, $remember)) {
             throw ValidationException::withMessages([
                 'email' => 'Your provided credentials could not be verified.'
             ]);
@@ -42,7 +44,7 @@ class SessionsController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME)->with('success', 'Welcome Back!');
     }
 
-    public function destroy(Request $request) : RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
         auth()->logout();
 
@@ -53,7 +55,7 @@ class SessionsController extends Controller
         return redirect('/')->with('success', 'Goodbye!');
     }
 
-    public function profile()
+    public function profile(): View
     {
         return view('profile');
     }

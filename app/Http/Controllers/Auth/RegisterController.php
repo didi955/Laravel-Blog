@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
+use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
-    public function create()
+    public function create(): View
     {
         return view('register.create');
     }

@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\View\View;
 
 class EmailVerificationController extends Controller
 {
-    public function create()
+    public function create(): View
     {
         return view('sessions.verify-email');
     }

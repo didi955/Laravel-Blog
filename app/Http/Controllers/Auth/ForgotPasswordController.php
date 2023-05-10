@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
+use Illuminate\View\View;
 
 class ForgotPasswordController extends Controller
 {
 
-    public function create()
+    public function create(): View
     {
         return view('sessions.forgot-password');
     }
 
-    public function forgotPassword()
+    public function forgotPassword(): RedirectResponse
     {
         request()->validate(['email' => 'required|email']);
 

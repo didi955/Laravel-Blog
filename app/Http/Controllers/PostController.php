@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Auth\Access\Gate;
+use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index(){
+    public function index(): View
+    {
         return view('posts.index', [
             'posts' => Post::where('is_published', true)->latest()->filter(
                 request(['search', 'category', 'author'])
@@ -15,7 +17,8 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(Post $post){
+    public function show(Post $post): View
+    {
         return view('posts.show', [
             'post' => $post
         ]);
