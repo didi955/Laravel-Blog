@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Utilities\RequestUtilities;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -11,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use function Webmozart\Assert\Tests\StaticAnalysis\boolean;
 
 class SessionsController extends Controller
 {
@@ -28,10 +30,10 @@ class SessionsController extends Controller
         $attributes = request()->validate([
             'email' => ['required', 'email', Rule::exists('users', 'email')],
             'password' => ['required', 'min:8', 'max:255', Rules\Password::defaults()],
-            'remember' => ['boolean', 'nullable'],
+            'remember' => ['nullable'],
         ]);
 
-        $remember = (bool)request('remember');
+        $remember = RequestUtilities::convertCheckboxValueToBoolean($attributes['remember'] ?? null);
 
         if (!Auth::attempt($attributes, $remember)) {
             throw ValidationException::withMessages([

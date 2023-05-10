@@ -1,3 +1,5 @@
+
+
 <x-layout>
     <x-setting heading="My Bookmarks">
         <div class="flex flex-col">
@@ -6,8 +8,8 @@
                     <div class="shadow overflow-hidden sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($bookmarks as $bookmark)
-
+                            @foreach($bookmarks as $bookmark)
+                                1
                             @endforeach
                             </tbody>
                         </table>

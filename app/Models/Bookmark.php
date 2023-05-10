@@ -23,18 +23,4 @@ class Bookmark extends Model
         return $this->belongsTo(Post::class);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public static function findOrFail(array $attributes): Bookmark
-    {
-        $bookmark = \DB::table('bookmarks')
-            ->where('user_id', $attributes['user_id'])
-            ->where('post_id', $attributes['post_id'])
-            ->first();
-        if (!$bookmark) {
-            throw new \Exception('Bookmark not found');
-        }
-        return $bookmark;
-    }
 }

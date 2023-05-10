@@ -12,7 +12,7 @@ class BookmarkController extends Controller
     public function index(): View
     {
         return view('bookmark.index', [
-            'bookmarks' => auth()->user()->bookmarks()
+            'bookmarks' => auth()->user()->bookmarks()->paginate(20),
         ]);
     }
 
@@ -27,7 +27,7 @@ class BookmarkController extends Controller
             auth()->user()->bookmarks()->create($attributes);
         }
         catch (\Exception $e) {
-            return back()->with('error', 'Bookmark already exists');
+            return back()->with('error', 'Post already bookmarked');
         }
         return back()->with('success', 'Post bookmarked');
     }
@@ -35,10 +35,7 @@ class BookmarkController extends Controller
     public function destroy(Post $post): RedirectResponse
     {
         try {
-            Bookmark::findOrFail([
-                'user_id' => auth()->id(),
-                'post_id' => $post->id,
-            ])->delete();
+            auth()->user()->bookmarks()->where('post_id', $post->id)->first()->delete();
         }
         catch (\Exception $e) {
             return back()->with('error', 'Bookmark not found');

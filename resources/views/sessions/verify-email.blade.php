@@ -7,7 +7,7 @@
                 If you did not receive the email,
                 <form method="POST" action="{{ route('verification.send') }}" class="inline ">
                     @csrf
-                    <x-form.button>click here to request another</x-form.button>
+                    <x-form.button classField="text-center">click here to request another</x-form.button>
                 </form>
             </p>
         </x-panel>

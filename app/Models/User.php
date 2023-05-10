@@ -87,4 +87,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $this->notify(new ResetPassword($url));
     }
+
+    public function hasBookmarked(Post $post): bool
+    {
+        return $this->bookmarks()->where('post_id', $post->id)->limit(1)->exists();
+    }
 }
