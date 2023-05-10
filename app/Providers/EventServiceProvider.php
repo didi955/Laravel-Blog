@@ -2,11 +2,7 @@
 
 namespace App\Providers;
 
-use App\Events\Post\PostCreated;
-use App\Events\Post\PostDeleted;
 use App\Events\Post\PostPublished;
-use App\Listeners\Post\DelayedPostCreated;
-use App\Listeners\Post\DeleteDelayedJob;
 use App\Listeners\Post\NotifyPostPublished;
 use App\Listeners\User\PasswordResetListener;
 use Illuminate\Auth\Events\PasswordReset;
@@ -24,14 +20,8 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [SendEmailVerificationNotification::class,],
         PasswordReset::class => [PasswordResetListener::class,],
-        PostCreated::class => [
-            DelayedPostCreated::class,
-        ],
         PostPublished::class => [
             NotifyPostPublished::class,
-        ],
-        PostDeleted::class => [
-            DeleteDelayedJob::class,
         ],
     ];
 

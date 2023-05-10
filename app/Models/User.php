@@ -17,6 +17,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, CanResetPassword;
 
+    private const DEFAULT_AVATAR = 'default-avatar.png';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -46,8 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function setPasswordAttribute($value): void
     {
-        if(\Hash::needsRehash($value) ) {
-            $value = \Hash::make($value);
+        if(Hash::needsRehash($value) ) {
+            $value = Hash::make($value);
         }
         $this->attributes['password'] = $value;
     }
@@ -55,7 +57,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setEmailAttribute($email): void
     {
         $this->attributes['email'] = trim(strtolower($email));
+    }
 
+    public function getAvatarAttribute(): string
+    {
+        if($this->attributes['avatar'] === null){
+            return 'avatars/' . self::DEFAULT_AVATAR;
+        }
+        return $this->attributes['avatar'];
     }
 
     public function posts(): HasMany

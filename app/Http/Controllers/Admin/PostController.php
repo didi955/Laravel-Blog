@@ -9,14 +9,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Utilities\FilterContent;
+use App\Utilities\PostStatus;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Illuminate\View\View;
 
 class PostController extends Controller
 {
-    public function index() : View
+    public function index(): View
     {
         return view('admin.posts.index', [
             'posts' => Post::latest()
@@ -24,33 +26,22 @@ class PostController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(): RedirectResponse
     {
         $attributes = array_merge($this->validatePost(), [
             'user_id' => auth()->id(),
             'thumbnail' => request()->file('thumbnail')-> store('thumbnails', 'public')
         ]);
 
-        if(!array_key_exists('published_at', $attributes)){
-            $attributes['is_published'] = true;
-            $attributes['published_at'] = now();
-        }
-        else{
-            $attributes['is_published'] = false;
-            $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
-        }
-
         $post = new Post($attributes);
         $post->save();
 
-        event(new PostCreated($post));
-
-        $this->triggerPublish($post);
+        PostCreated::dispatch($post);
 
         return redirect('/admin/posts')->with('success', 'Your post has been created !');
     }
 
-    public function update(Post $post)
+    public function update(Post $post): RedirectResponse
     {
         $attributes = $this->validatePost($post);
 
@@ -58,17 +49,8 @@ class PostController extends Controller
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        if(!array_key_exists('published_at', $attributes)){
-            $attributes['is_published'] = true;
-            $attributes['published_at'] = now();
-        }
-        else{
-            $attributes['is_published'] = false;
-            $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
-        }
-
-        if($post->is_published !== $attributes['is_published']){
-            $this->triggerPublish($post);
+        if($post->isPublished()){
+            PostPublished::dispatch($post);
         }
 
         $post->update($attributes);
@@ -76,13 +58,14 @@ class PostController extends Controller
         return redirect('/admin/posts')->with('success', 'Your post has been updated!');
     }
 
-    public function create(){
+    public function create(): View
+    {
         return view('admin.posts.create', [
             'categories' => Category::all()
         ]);
     }
 
-    public function edit(Post $post) : View
+    public function edit(Post $post): View
     {
         return view('admin.posts.edit', [
             'post' => $post,
@@ -90,7 +73,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
         if($post->thumbnail){
             Storage::disk('public')->delete($post->thumbnail);
@@ -98,7 +81,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        event(new PostDeleted($post));
+        PostDeleted::dispatch($post);
 
         return redirect('/admin/posts')->with('success', 'Your post has been deleted!');
     }
@@ -121,13 +104,17 @@ class PostController extends Controller
         ]);
         $attributes['excerpt'] = FilterContent::apply($attributes['excerpt'], ['script']);
         $attributes['body'] = FilterContent::apply($attributes['body'], ['script']);
+
+        if(!array_key_exists('published_at', $attributes)){
+            $attributes['status'] = PostStatus::PUBLISHED;
+            $attributes['published_at'] = now();
+        }
+        else{
+            $attributes['status'] = PostStatus::DRAFT;
+            $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
+        }
+
         return $attributes;
     }
 
-    private function triggerPublish(Post $post) : void
-    {
-        if($post->is_published){
-            event(new PostPublished($post));
-        }
-    }
 }

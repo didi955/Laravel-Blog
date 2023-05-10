@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Utilities\PostStatus;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,6 +61,16 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function isPublished(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->status === PostStatus::PUBLISHED
+                    && $this->published_at->lte(now());
+            }
+        );
     }
 
     public function notifySubscribers()

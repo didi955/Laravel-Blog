@@ -7,8 +7,8 @@
             </p>
             <form method="POST" action="{{ route('password.email') }}" class="mt-10">
                 @csrf
-                <x-form.input name="email" type="email" required>Email</x-form.input>
-                <x-form.button>Send Password Reset Link</x-form.button>
+                <x-form.input name="email" type="email" autocomplete="username" required>Email</x-form.input>
+                <x-form.button class-field="text-center">Send Password Reset Link</x-form.button>
             </form>
         </x-panel>
     </section>

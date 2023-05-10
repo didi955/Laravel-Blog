@@ -39,9 +39,9 @@
                 <x-form.error name="category"/>
             </x-form.field>
 
-            <div x-data="{ showDateInput: {{ $post->is_published ? 'false' : 'true' }}, dateValue: '{{ $post->published_at ?? '' }}' }">
+            <div x-data="{ showDateInput: {{ $post->isPublished() ? 'false' : 'true' }}, dateValue: '{{ $post->published_at ?? '' }}' }">
                 <x-form.field>
-                    <input class="mr-1" type="checkbox" id="publish"  {{ $post->is_published ? 'checked' : '' }} autocomplete="off" x-on:click="showDateInput = !showDateInput">
+                    <input class="mr-1" type="checkbox" id="publish"  {{ $post->isPublished() ? 'checked' : '' }} autocomplete="off" x-on:click="showDateInput = !showDateInput">
                     <label class="text-sm text-gray-700 font-bold uppercase" for="publish">
                         Publish Now
                     </label>

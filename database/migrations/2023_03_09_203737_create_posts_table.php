@@ -1,5 +1,6 @@
 <?php
 
+use App\Utilities\PostStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,10 +21,11 @@ return new class extends Migration
             $table->string('title');
             $table->text('excerpt');
             $table->text('body');
+            $table->string('status')->default(PostStatus::DRAFT->value);
             $table->timestamps();
             $table->timestamp('published_at')->nullable();
-            $table->boolean('is_published')->default(false);
         });
+
     }
 
     /**

@@ -11,7 +11,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-10 w-10 mr-2">
-                                                <img class="h-10 w-10 rounded-full" src="{{ asset('storage/' . $post->thumbnail) }}" alt="post thumbnail">
+                                                <img class="h-10 w-10 rounded-full" src="{{ asset('storage/' . $post->thumbnail) }}" alt="thumbnail">
                                             </div>
                                             <div class="text-sm font-medium text-gray-900 truncate block max-w-xs">
                                                 <a href="/posts/{{ $post->slug }}">
@@ -20,11 +20,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-2 whitespace-nowrap">
                                         <div class="px-1.5 py-0.5 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold">{{ $post->category->name }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($post->is_published)
+                                        @if($post->isPublished())
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                 Published : {{ $post->published_at->format('F j, Y, g:i a') }}
                                             </span>
@@ -54,6 +54,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="mt-4">
+            {{ $posts->links() }}
         </div>
     </x-setting>
 </x-layout>
