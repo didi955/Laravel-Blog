@@ -12,7 +12,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use function Webmozart\Assert\Tests\StaticAnalysis\boolean;
 
 class SessionsController extends Controller
 {

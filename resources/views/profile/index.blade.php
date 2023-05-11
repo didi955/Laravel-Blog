@@ -1,6 +1,6 @@
 <x-layout>
     <x-setting heading="Profile">
-        <form method="POST" action="profile/" enctype="multipart/form-data">
+        <form method="POST" action="" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div>
@@ -16,7 +16,7 @@
                         <x-form.input name="avatar" type="file" :value="old('avatar', auth()->user()->avatar)" />
                     </div>
 
-                    <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="" class="rounded-xl ml-6" width="100">
+                    <img src="{{ auth()->user()->getAvatarAsset() }}" alt="" class="rounded-xl ml-6" width="100">
                 </div>
             </div>
             <div>

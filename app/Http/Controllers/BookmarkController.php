@@ -11,7 +11,7 @@ class BookmarkController extends Controller
 {
     public function index(): View
     {
-        return view('bookmark.index', [
+        return view('profile.bookmark.index', [
             'bookmarks' => auth()->user()->bookmarks()->paginate(20),
         ]);
     }

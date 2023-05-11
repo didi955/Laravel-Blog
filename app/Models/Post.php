@@ -5,10 +5,28 @@ namespace App\Models;
 use App\Utilities\PostStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
+/**
+ *
+ * @property string $title
+ * @property string $slug
+ * @property string $excerpt
+ * @property string $body
+ * @property string $status
+ * @property Carbon $published_at
+ * @property Carbon $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property-read Category $category
+ * @property-read User $author
+ * @property-read Collection|Comment[] $comments
+ *
+ */
 
 class Post extends Model
 {

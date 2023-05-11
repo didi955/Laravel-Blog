@@ -12,6 +12,26 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
+
+/**
+ *
+ * @property int $id
+ * @property string $lastname
+ * @property string $firstname
+ * @property string $username
+ * @property string $email
+ * @property string $password
+ * @property string|null $avatar
+ * @property Carbon|null $email_verified_at
+ * @property string|null $remember_token
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Bookmark[] $bookmarks
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ *
+ */
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -59,12 +79,12 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['email'] = trim(strtolower($email));
     }
 
-    public function getAvatarAttribute(): string
+    public function getAvatarAsset(): string
     {
         if($this->attributes['avatar'] === null){
-            return 'avatars/' . self::DEFAULT_AVATAR;
+            return asset('images/' . self::DEFAULT_AVATAR);
         }
-        return $this->attributes['avatar'];
+        return asset('storage/' . $this->attributes['avatar']);
     }
 
     public function posts(): HasMany
@@ -82,7 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyEmailQueued());
     }
 
-    /**
+    /**q
      * Send a password reset notification to the user.
      *
      * @param  string  $token

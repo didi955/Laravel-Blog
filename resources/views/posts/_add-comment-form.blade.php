@@ -4,7 +4,7 @@
             @csrf
 
             <header class="flex items-center">
-                <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                <img src="{{ auth()->user()->getAvatarAsset() }}"
                      alt="avatar"
                      width="40"
                      height="40"
