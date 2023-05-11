@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Utilities\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -24,6 +25,8 @@ class RegisterController extends Controller
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
             'password' => ['required', 'min:8', 'max:255', 'confirmed', Rules\Password::defaults()]
         ]);
+
+        $attributes['role'] = Role::MEMBER;
 
         $user = User::create($attributes);
 

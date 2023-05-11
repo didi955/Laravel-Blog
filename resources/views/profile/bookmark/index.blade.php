@@ -23,12 +23,12 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold text-gray-900">
+                                        <span class="px-2 inline-flex text-sm leading-5 font-semibold text-gray-900">
                                                 Author : {{ $bookmark->post->author->username }}
                                             </span>
                                     </td>
                                     <td class="px-2 whitespace-nowrap">
-                                        <div class="px-1.5 py-0.5 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold">{{ $bookmark->post->category->name }}</div>
+                                        <x-category-button :category="$bookmark->post->category" />
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <x-bookmark-button :post="$bookmark->post"/>

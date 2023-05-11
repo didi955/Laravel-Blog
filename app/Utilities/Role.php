@@ -6,16 +6,21 @@ enum Role : string
 {
 
     case ADMIN = 'Admin';
-    case EDITOR = 'Editor';
-    case READER = 'Reader';
+    case WRITER = 'Writer';
+    case MEMBER = 'Member';
 
     public function power(): int
     {
         return match($this->value){
             'Admin' => 99,
-            'Editor' => 50,
-            'Reader' => 10,
+            'Writer' => 50,
+            'Member' => 10,
         };
+    }
+
+    public function isHigherEqualThan(Role $otherRole): bool
+    {
+        return $this->power() >= $otherRole->power();
     }
 
     public function isHigherThan(Role $otherRole): bool

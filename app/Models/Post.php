@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Utilities\PostStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  *
@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $excerpt
  * @property string $body
  * @property string $status
+ * @property string $thumbnail
  * @property Carbon $published_at
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
@@ -36,7 +37,8 @@ class Post extends Model
 
     protected $with = ['category', 'author'];
 
-    public function scopeFilter($query, array $filters){
+    public function scopeFilter($query, array $filters): void
+    {
         $query->when($filters['search'] ?? false, fn($query, $search) =>
             $query->where(fn($query) =>
                 $query
@@ -81,11 +83,16 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function getStatusAttribute(string $value): PostStatus
+    {
+        return PostStatus::from($value);
+    }
+
     public function isPublished(): Attribute
     {
         return new Attribute(
             get: function () {
-                return $this->status === PostStatus::PUBLISHED
+                return $this->status == PostStatus::PUBLISHED
                     && $this->published_at->lte(now());
             }
         );

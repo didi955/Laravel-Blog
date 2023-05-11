@@ -21,7 +21,7 @@
                                         </div>
                                     </td>
                                     <td class="px-2 whitespace-nowrap">
-                                        <div class="px-1.5 py-0.5 border border-blue-300 rounded-full text-blue-300 text-xs uppercase font-semibold">{{ $post->category->name }}</div>
+                                        <x-category-button :category="$post->category" />
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($post->isPublished())

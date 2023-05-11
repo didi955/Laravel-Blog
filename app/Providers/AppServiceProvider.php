@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Utilities\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -23,10 +24,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('admin', function ($user) {
-            return $user->is_admin;
+            return $user->role->isHigherEqualThan(Role::ADMIN);
+        });
+        Gate::define('writer', function ($user) {
+            return $user->role->isHigherEqualThan(Role::WRITER);
         });
         Blade::if('admin', function () {
-            return auth()->check() && auth()->user()->is_admin;
+            return auth()->check() && Gate::allows('admin');
+        });
+        Blade::if('writer', function () {
+            return auth()->check() && Gate::allows('writer');
         });
 
         Carbon::setLocale(app()->getLocale());

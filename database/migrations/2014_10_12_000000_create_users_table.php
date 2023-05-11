@@ -1,5 +1,6 @@
 <?php
 
+use App\Utilities\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->text('firstname');
             $table->string('avatar')->nullable();
             $table->string('email')->unique();
-            $table->boolean('is_admin')->default(false);
+            $table->string( 'role')->default(Role::MEMBER->value);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

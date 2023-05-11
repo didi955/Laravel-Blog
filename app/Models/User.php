@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Notifications\User\ResetPassword;
 use App\Notifications\User\VerifyEmailQueued;
+use App\Utilities\Role;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Carbon;
@@ -21,6 +23,7 @@ use Carbon\Carbon;
  * @property string $firstname
  * @property string $username
  * @property string $email
+ * @property Role $role
  * @property string $password
  * @property string|null $avatar
  * @property Carbon|null $email_verified_at
@@ -28,8 +31,8 @@ use Carbon\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Bookmark[] $bookmarks
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ * @property-read Collection|Bookmark[] $bookmarks
+ * @property-read Collection|Post[] $posts
  *
  */
 
@@ -64,9 +67,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed'
     ];
 
-    public function setPasswordAttribute($value): void
+    public function setPasswordAttribute(string $value): void
     {
         if(Hash::needsRehash($value) ) {
             $value = Hash::make($value);
@@ -74,9 +78,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = $value;
     }
 
-    public function setEmailAttribute($email): void
+    public function setEmailAttribute(string $email): void
     {
         $this->attributes['email'] = trim(strtolower($email));
+    }
+
+    public function getRoleAttribute(string $value): Role
+    {
+        return Role::from($value);
     }
 
     public function getAvatarAsset(): string
