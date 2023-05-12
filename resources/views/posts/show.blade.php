@@ -11,7 +11,7 @@
                     </p>
 
                     <div class="flex items-center lg:justify-center text-sm mt-4">
-                        <img src="{{ asset('storage/' . $post->author->avatar) }}" height="64" width="64" class="rounded-xl" alt="Avatar">
+                        <img src="{{ $post->author->getAvatarAsset() }}" height="64" width="64" class="rounded-xl" alt="Avatar">
                         <div class="ml-3 text-left">
                             <h5 class="font-bold">
                                 <a href="/?author={{ $post->author->username }}">{{ $post->author->username }}</a>

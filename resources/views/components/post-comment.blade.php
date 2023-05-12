@@ -3,7 +3,7 @@
 <x-panel class="bg-gray-50">
     <article class="flex space-x-4">
         <div class="flex-shrink-0">
-            <img class="rounded-xl" src="{{ asset('storage/' . $comment->author->avatar) }}" alt="avatar" width="40" height="40">
+            <img class="rounded-xl" src="{{ $comment->author->getAvatarAsset() }}" alt="avatar" width="40" height="40">
         </div>
         <div>
             <header class="mb-4">
