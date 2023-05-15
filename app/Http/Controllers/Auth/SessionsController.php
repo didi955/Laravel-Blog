@@ -29,7 +29,6 @@ class SessionsController extends Controller
         $attributes = request()->validate([
             'email' => ['required', 'email', Rule::exists('users', 'email')],
             'password' => ['required', 'min:8', 'max:255', Rules\Password::defaults()],
-            'remember' => ['nullable'],
         ]);
 
         $remember = RequestUtilities::convertCheckboxValueToBoolean($attributes['remember'] ?? null);

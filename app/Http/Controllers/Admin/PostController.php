@@ -6,6 +6,7 @@ use App\Events\Post\PostCreated;
 use App\Events\Post\PostDeleted;
 use App\Events\Post\PostPublished;
 use App\Http\Controllers\Controller;
+use App\Jobs\PublishPost;
 use App\Models\Category;
 use App\Models\Post;
 use App\Utilities\FilterContent;
@@ -36,6 +37,8 @@ class PostController extends Controller
         $post = new Post($attributes);
         $post->save();
 
+        $this->broadcast($post);
+
         PostCreated::dispatch($post);
 
         return redirect('/admin/posts')->with('success', 'Your post has been created !');
@@ -45,15 +48,9 @@ class PostController extends Controller
     {
         $attributes = $this->validatePost($post);
 
-        if($attributes['thumbnail'] ?? false){
-            $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails', 'public');
-        }
-
-        if($post->isPublished()){
-            PostPublished::dispatch($post);
-        }
-
         $post->update($attributes);
+
+        $this->broadcast($post, true);
 
         return redirect('/admin/posts')->with('success', 'Your post has been updated!');
     }
@@ -105,16 +102,30 @@ class PostController extends Controller
         $attributes['excerpt'] = FilterContent::apply($attributes['excerpt'], ['script']);
         $attributes['body'] = FilterContent::apply($attributes['body'], ['script']);
 
+        if($attributes['thumbnail'] ?? false){
+            $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails', 'public');
+        }
+
         if(!array_key_exists('published_at', $attributes)){
-            $attributes['status'] = PostStatus::PUBLISHED;
+            $attributes['status'] = PostStatus::PUBLISHED->value;
             $attributes['published_at'] = now();
         }
         else{
-            $attributes['status'] = PostStatus::DRAFT;
+            $attributes['status'] = PostStatus::PENDING->value;
             $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
         }
 
         return $attributes;
+    }
+
+    private function broadcast(Post $post, bool $wasEdit = false): void
+    {
+        if($post->status === PostStatus::PUBLISHED && !$wasEdit){
+            PostPublished::dispatch($post);
+        }
+        else if($post->status === PostStatus::PENDING){
+            PublishPost::dispatch($post, $wasEdit)->delay($post->published_at);
+        }
     }
 
 }

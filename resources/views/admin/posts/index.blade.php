@@ -28,9 +28,13 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                 Published : {{ $post->published_at->format('F j, Y, g:i a') }}
                                             </span>
-                                        @else
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        @elseif($post->isScheduled())
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-yellow-600">
                                                 Published in : {{ $post->published_at->diffForHumans() }}
+                                            </span>
+                                        @else
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-red-500">
+                                                Draft
                                             </span>
 
                                         @endif

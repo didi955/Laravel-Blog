@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
  * @property string $slug
  * @property string $excerpt
  * @property string $body
- * @property string $status
+ * @property PostStatus $status
  * @property string $thumbnail
  * @property Carbon $published_at
  * @property Carbon $created_at
@@ -88,14 +88,15 @@ class Post extends Model
         return PostStatus::from($value);
     }
 
-    public function isPublished(): Attribute
+    public function isPublished(): bool
     {
-        return new Attribute(
-            get: function () {
-                return $this->status == PostStatus::PUBLISHED
-                    && $this->published_at->lte(now());
-            }
-        );
+        return $this->status == PostStatus::PUBLISHED
+            && $this->published_at->lte(now());
+    }
+
+    public function isScheduled(): bool
+    {
+        return $this->status == PostStatus::PENDING;
     }
 
     public function notifySubscribers()

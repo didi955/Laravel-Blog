@@ -16,8 +16,8 @@
                            class="{{ request()->routeIs('my-bookmarks') ? 'text-blue-500' : ''}}">My Bookmarks</a>
                     </li>
                 </ul>
-                <h4 class="font-semibold mb-4 mt-4">Administration</h4>
                 @admin
+                <h4 class="font-semibold mb-4 mt-4">Administration</h4>
                 <ul>
                     <li>
                         <a href="/admin/posts"

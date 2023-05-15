@@ -15,7 +15,7 @@ class PostPublished
     /**
      * Create a new event instance.
      */
-    public function __construct(public readonly Post $post)
+    public function __construct(public readonly Post $post, public readonly bool $wasDelayed = false)
     {
         //
     }

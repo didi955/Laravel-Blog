@@ -6,14 +6,12 @@ enum Role : string
 {
 
     case ADMIN = 'Admin';
-    case WRITER = 'Writer';
     case MEMBER = 'Member';
 
     public function power(): int
     {
         return match($this->value){
             'Admin' => 99,
-            'Writer' => 50,
             'Member' => 10,
         };
     }

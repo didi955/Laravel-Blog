@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\Post\PostCreated;
 use App\Events\Post\PostPublished;
+use App\Listeners\Post\NotifyScheduledPostCreated;
 use App\Listeners\Post\NotifyPostPublished;
 use App\Listeners\User\PasswordResetListener;
 use Illuminate\Auth\Events\PasswordReset;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         PasswordReset::class => [PasswordResetListener::class,],
         PostPublished::class => [
             NotifyPostPublished::class,
+        ],
+        PostCreated::class => [
+            NotifyScheduledPostCreated::class,
         ],
     ];
 

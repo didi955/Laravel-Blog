@@ -3,9 +3,9 @@
 namespace App\Listeners\Post;
 
 use App\Events\Post\PostPublished;
-use App\Notifications\Post\NewPostPublished;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotifyPostPublished
+class NotifyPostPublished implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -20,7 +20,7 @@ class NotifyPostPublished
      */
     public function handle(PostPublished $event): void
     {
-        $event->post->author->notify(new NewPostPublished($event->post));
+        $event->post->author->notify(new \App\Notifications\Post\PostPublished($event->post, $event->wasDelayed));
         $event->post->notifySubscribers();
     }
 }

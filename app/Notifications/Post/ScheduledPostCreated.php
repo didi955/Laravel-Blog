@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewPostPublished extends Notification implements ShouldQueue
+class ScheduledPostCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -36,9 +36,9 @@ class NewPostPublished extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('Your Post has been published !')
-            ->line('You can view it here:')
-            ->action('View Post', route('posts.show', $this->post->slug));
+                    ->line('Your Delayed Post has been created !')
+                    ->line('It will be published at: ' . $this->post->published_at->format('Y/m/d H:i'))
+                    ->line('You will be notified when it will be published !');
     }
 
     /**
