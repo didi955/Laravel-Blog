@@ -19,22 +19,18 @@ class FilterContent
         return $filteredContent;
     }
 
-    private static function filterScript($content)
+    private static function filterScript($content): array|string|null
     {
         $filteredContent = $content;
 
-        $filteredContent = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $filteredContent);
-
-        return $filteredContent;
+        return preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $filteredContent);
     }
 
-    private static function filterStyle($content)
+    private static function filterStyle($content): array|string|null
     {
         $filteredContent = $content;
 
-        $filteredContent = preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", $filteredContent);
-
-        return $filteredContent;
+        return preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", $filteredContent);
     }
 
 }

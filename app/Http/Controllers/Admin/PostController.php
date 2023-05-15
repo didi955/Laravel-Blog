@@ -99,6 +99,7 @@ class PostController extends Controller
             'category_id' => ['required', Rule::exists('categories', 'id')],
             'published_at' => ['nullable', 'date', 'after_or_equal:today']
         ]);
+
         $attributes['excerpt'] = FilterContent::apply($attributes['excerpt'], ['script']);
         $attributes['body'] = FilterContent::apply($attributes['body'], ['script']);
 
@@ -124,7 +125,8 @@ class PostController extends Controller
             PostPublished::dispatch($post);
         }
         else if($post->status === PostStatus::PENDING){
-            PublishPost::dispatch($post, $wasEdit)->delay($post->published_at);
+            // need rework, get available date inside a job ?
+            PublishPost::dispatch($post, $post->published_at, $wasEdit)->delay($post->published_at);
         }
     }
 

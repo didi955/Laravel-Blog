@@ -17,7 +17,6 @@ class UserController extends Controller
 
     public function update(): RedirectResponse
     {
-
         $attributes = request()->validate([
             'lastname' => ['required', 'min:3', 'max:255'],
             'firstname' => ['required', 'min:3', 'max:255'],

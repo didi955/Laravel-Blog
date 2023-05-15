@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\Post\PostPublished;
 use App\Models\Post;
 use App\Utilities\PostStatus;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -19,7 +20,7 @@ class PublishPost implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public readonly Post $post, private readonly bool $wasEdit = false)
+    public function __construct(public readonly Post $post, public readonly Carbon $date, private readonly bool $wasEdit = false)
     {
         //
     }
@@ -29,7 +30,7 @@ class PublishPost implements ShouldQueue
      */
     public function handle(): void
     {
-        if($this->post->status === PostStatus::PENDING){
+        if($this->post->status === PostStatus::PENDING && $this->date->eq($this->post->published_at)){
             $this->post->update([
                 'status' => PostStatus::PUBLISHED,
             ]);

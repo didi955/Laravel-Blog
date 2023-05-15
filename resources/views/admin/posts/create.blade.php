@@ -39,8 +39,13 @@
                     <x-form.input type="datetime-local" name="published_at" class="mt-2" x-model="dateValue"/>
                 </template>
             </div>
+            <div class="flex items-center">
+                <x-form.button>Publish</x-form.button>
 
-            <x-form.button>Publish</x-form.button>
+                <button type="submit" class="bg-gray-200 text-gray-600 uppercase font-semibold text-xs py-1.5 px-4 rounded-2xl hover:bg-gray-300 ml-auto mr-20">
+                    Save as Draft
+                </button>
+            </div>
         </form>
     </x-setting>
 </x-layout>

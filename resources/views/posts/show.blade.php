@@ -38,6 +38,7 @@
                         </a>
 
                         <div class="space-x-2">
+                            <x-bookmark-button :post="$post"/>
                             <x-category-button :category="$post->category"/>
                         </div>
                     </div>

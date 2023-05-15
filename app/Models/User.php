@@ -70,7 +70,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed'
     ];
 
-    public function setPasswordAttribute(string $value): void
+    public function setPasswordAttribute(?string $value): void
     {
         if(Hash::needsRehash($value) ) {
             $value = Hash::make($value);
