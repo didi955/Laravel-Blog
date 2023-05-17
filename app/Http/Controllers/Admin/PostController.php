@@ -120,19 +120,20 @@ class PostController extends Controller
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        if(!$draft){
-            if(!array_key_exists('published_at', $attributes)){
+        if (!array_key_exists('published_at', $attributes)) {
+            if ($draft) {
+                $attributes['status'] = PostStatus::DRAFT->value;
+            } else {
                 $attributes['status'] = PostStatus::PUBLISHED->value;
-                $attributes['published_at'] = now();
             }
-            else{
+            $attributes['published_at'] = now();
+        } else {
+            if ($draft) {
+                $attributes['status'] = PostStatus::DRAFT->value;
+            } else {
                 $attributes['status'] = PostStatus::PENDING->value;
-                $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
             }
-        }
-        else {
-            $attributes['status'] = PostStatus::DRAFT->value;
-            $attributes['published_at'] = null;
+            $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
         }
 
         return $attributes;

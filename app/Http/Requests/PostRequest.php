@@ -40,7 +40,7 @@ class PostRequest extends FormRequest
             'excerpt' => 'required',
             'body' => 'required',
             'category_id' => ['required', Rule::exists('categories', 'id')],
-            'published_at' => ['nullable', 'date', 'after_or_equal:today']
+            'published_at' => ['nullable', 'date', 'after:now']
         ];
     }
 
@@ -54,7 +54,6 @@ class PostRequest extends FormRequest
             'slug' => 'trim|strip_tags|cast:string',
             'excerpt' => 'trim|cast:string|strip_tags',
             'body' => 'trim|cast:string|escape_script_tag',
-
         ];
     }
 
