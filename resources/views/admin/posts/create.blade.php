@@ -42,7 +42,7 @@
             <div class="flex items-center">
                 <x-form.button>Publish</x-form.button>
 
-                <button type="submit" class="bg-gray-200 text-gray-600 uppercase font-semibold text-xs py-1.5 px-4 rounded-2xl hover:bg-gray-300 ml-auto mr-20">
+                <button type="submit" formaction="/admin/posts/draft" class="bg-gray-200 text-gray-600 uppercase font-semibold text-xs py-1.5 px-4 rounded-2xl hover:bg-gray-300 ml-auto mr-20">
                     Save as Draft
                 </button>
             </div>

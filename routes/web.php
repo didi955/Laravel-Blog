@@ -63,6 +63,10 @@ Route::middleware(['auth', 'can:admin', 'verified'])->group(function () {
     Route::get('/admin/posts/{post}/edit', [Admin\PostController::class, 'edit'])->name('admin.posts.create');
     Route::patch('/admin/posts/{post}', [Admin\PostController::class, 'update']);
     Route::delete('/admin/posts/{post}', [Admin\PostController::class, 'destroy']);
+
+    // Draft Posts
+    Route::post("/admin/posts/draft", [Admin\PostController::class, 'storeDraft'])->name("admin.posts.draft.store");
+    Route::patch("/admin/posts/{post}/draft", [Admin\PostController::class, 'updateDraft'])->name("admin.posts.draft.update");
 });
 
 

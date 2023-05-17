@@ -3,10 +3,10 @@
 <script>
     tinymce.init({
         selector: 'textarea.markdown',
-        plugins: 'lists searchreplace wordcount autosave',
+        plugins: 'lists searchreplace wordcount autosave codesample image',
         promotion: false,
         branding: false,
-        toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | searchreplace | wordcount | restoredraft | forecolor | backcolor',
+        toolbar: 'undo redo | image | codesample | formatselect | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | searchreplace | wordcount | restoredraft | forecolor | backcolor',
     });
 </script>
 @endpush

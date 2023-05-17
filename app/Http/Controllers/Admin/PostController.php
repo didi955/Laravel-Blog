@@ -6,16 +6,15 @@ use App\Events\Post\PostCreated;
 use App\Events\Post\PostDeleted;
 use App\Events\Post\PostPublished;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
 use App\Jobs\PublishPost;
 use App\Models\Category;
 use App\Models\Post;
-use App\Utilities\FilterContent;
 use App\Utilities\PostStatus;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -27,9 +26,9 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(): RedirectResponse
+    public function store(PostRequest $request): RedirectResponse
     {
-        $attributes = array_merge($this->validatePost(), [
+        $attributes = array_merge($this->validatePost($request), [
             'user_id' => auth()->id(),
             'thumbnail' => request()->file('thumbnail')-> store('thumbnails', 'public')
         ]);
@@ -44,13 +43,39 @@ class PostController extends Controller
         return redirect('/admin/posts')->with('success', 'Your post has been created !');
     }
 
-    public function update(Post $post): RedirectResponse
+    public function update(PostRequest $request): RedirectResponse
     {
-        $attributes = $this->validatePost($post);
+        $attributes = $this->validatePost($request);
+
+        $post = Post::find($request->post);
 
         $post->update($attributes);
 
         $this->broadcast($post, true);
+
+        return redirect('/admin/posts')->with('success', 'Your post has been updated!');
+    }
+
+    public function storeDraft(PostRequest $request): RedirectResponse
+    {
+        $attributes = array_merge($this->validatePost($request, true), [
+            'user_id' => auth()->id(),
+            'thumbnail' => request()->file('thumbnail')-> store('thumbnails', 'public')
+        ]);
+
+        $post = new Post($attributes);
+        $post->save();
+
+        return redirect('/admin/posts')->with('success', 'Your post has been saved as draft!');
+    }
+
+    public function updateDraft(PostRequest $request): RedirectResponse
+    {
+        $attributes = $this->validatePost($request, true);
+
+        $post = Post::find($request->post);
+
+        $post->update($attributes);
 
         return redirect('/admin/posts')->with('success', 'Your post has been updated!');
     }
@@ -84,36 +109,30 @@ class PostController extends Controller
     }
 
     /**
-     * @param Post|null $post
+     * @param PostRequest $request
      * @return array
      */
-    protected function validatePost(?Post $post = null): array
+    protected function validatePost(PostRequest $request, bool $draft = false): array
     {
-        $post ??= new Post();
-        $attributes = request()->validate([
-            'title' => 'required',
-            'thumbnail' => $post->exists ? ['image', 'max:1024'] : 'required|image|max:1024',
-            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
-            'excerpt' => 'required',
-            'body' => 'required',
-            'category_id' => ['required', Rule::exists('categories', 'id')],
-            'published_at' => ['nullable', 'date', 'after_or_equal:today']
-        ]);
-
-        $attributes['excerpt'] = FilterContent::apply($attributes['excerpt'], ['script']);
-        $attributes['body'] = FilterContent::apply($attributes['body'], ['script']);
+        $attributes = $request->validated();
 
         if($attributes['thumbnail'] ?? false){
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        if(!array_key_exists('published_at', $attributes)){
-            $attributes['status'] = PostStatus::PUBLISHED->value;
-            $attributes['published_at'] = now();
+        if(!$draft){
+            if(!array_key_exists('published_at', $attributes)){
+                $attributes['status'] = PostStatus::PUBLISHED->value;
+                $attributes['published_at'] = now();
+            }
+            else{
+                $attributes['status'] = PostStatus::PENDING->value;
+                $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
+            }
         }
-        else{
-            $attributes['status'] = PostStatus::PENDING->value;
-            $attributes['published_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $attributes['published_at']);
+        else {
+            $attributes['status'] = PostStatus::DRAFT->value;
+            $attributes['published_at'] = null;
         }
 
         return $attributes;
