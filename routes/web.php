@@ -64,6 +64,9 @@ Route::middleware(['auth', 'can:admin', 'verified'])->group(function () {
     Route::patch('/admin/posts/{post}', [Admin\PostController::class, 'update']);
     Route::delete('/admin/posts/{post}', [Admin\PostController::class, 'destroy']);
 
+    Route::get('/admin/categories', [Admin\CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('admin/users', [Admin\UserController::class, 'index'])->name('admin.users.index');
+
     // Draft Posts
     Route::post("/admin/posts/draft", [Admin\PostController::class, 'storeDraft'])->name("admin.posts.draft.store");
     Route::patch("/admin/posts/{post}/draft", [Admin\PostController::class, 'updateDraft'])->name("admin.posts.draft.update");

@@ -27,7 +27,6 @@
                         <a href="/admin/posts/create"
                            class="{{ request()->routeIs('admin.posts.create') ? 'text-blue-500' : '' }}">New Post</a>
                     </li>
-                    {{--}}
                     <li>
                         <a href="/admin/categories"
                            class="{{ request()->routeIs('admin.categories.index') ? 'text-blue-500' : '' }}">Categories</a>
@@ -36,7 +35,6 @@
                         <a href="/admin/users"
                            class="{{ request()->routeIs('admin.users.index') ? 'text-blue-500' : '' }}">Users</a>
                     </li>
-                    {{--}}
                 </ul>
                 @endadmin
             </aside>

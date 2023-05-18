@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
  *
- * @property-read Category $category
+ * @property-read Category $categories
  * @property-read User $author
  * @property-read Collection|Comment[] $comments
  *
@@ -46,7 +46,7 @@ class Post extends Model
                 ->orWhere('body', 'like', '%' . strtolower($search) . '%')
         ));
 
-        $query->when($filters['category'] ?? false, fn($query, $category) =>
+        $query->when($filters['categories'] ?? false, fn($query, $category) =>
             $query->whereHas('category', fn($query) =>
                 $query->where('slug', $category)
         ));
