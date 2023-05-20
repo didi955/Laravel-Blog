@@ -60,7 +60,7 @@ Route::middleware(['auth', 'can:admin', 'verified'])->group(function () {
     Route::get('/admin/posts', [Admin\PostController::class, 'index'])->name('admin.posts.index');
     Route::post('/admin/posts', [Admin\PostController::class, 'store']);
     Route::get('/admin/posts/create', [Admin\PostController::class, 'create'])->name('admin.posts.create');
-    Route::get('/admin/posts/{post}/edit', [Admin\PostController::class, 'edit'])->name('admin.posts.create');
+    Route::get('/admin/posts/{post}/edit', [Admin\PostController::class, 'edit'])->name('admin.posts.edit');
     Route::patch('/admin/posts/{post}', [Admin\PostController::class, 'update']);
     Route::delete('/admin/posts/{post}', [Admin\PostController::class, 'destroy']);
 
