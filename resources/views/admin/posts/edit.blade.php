@@ -4,12 +4,11 @@
 
 <x-layout>
     <x-setting :heading="'Edit Post: ' . $post->title">
-        <form method="POST" action="/admin/posts/{{ $post->id }}" enctype="multipart/form-data">
+        <form method="POST" action="/admin/posts/{{ $post->slug }}" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
 
             <x-form.input name="title" :value="old('title', $post->title)" required />
-            <x-form.input name="slug" :value="old('slug', $post->slug)" required />
 
             <div class="flex mt-6">
                 <div class="flex-1">
@@ -27,7 +26,7 @@
             <x-form.field>
                 <x-form.label name="category"/>
 
-                <select name="category_id" id="category_id" required class="border border-gray-400 p-2 rounded w-1/3">
+                <select name="category_id" id="category_id" class="border border-gray-400 p-2 rounded w-1/3">
                     @foreach ($categories as $category)
                         <option
                             value="{{ $category->id }}"
@@ -54,7 +53,7 @@
             <div class="flex items-center">
                 <x-form.button>Publish</x-form.button>
 
-                <button type="submit" formaction="/admin/posts/{{ $post->id }}/draft" class="bg-gray-200 text-gray-600 uppercase font-semibold text-xs py-1.5 px-4 rounded-2xl hover:bg-gray-300 ml-auto mr-20">
+                <button type="submit" formaction="/admin/posts/{{ $post->slug }}/draft" class="bg-gray-200 text-gray-600 uppercase font-semibold text-xs py-1.5 px-4 rounded-2xl hover:bg-gray-300 ml-auto mr-20">
                     Save as Draft
                 </button>
             </div>

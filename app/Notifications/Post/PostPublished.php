@@ -12,14 +12,12 @@ class PostPublished extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $queue = 'notifications';
-
     /**
      * Create a new notification instance.
      */
     public function __construct(private readonly Post $post, private readonly bool $wasDelayed)
     {
-        //
+        $this->onQueue('notifications');
     }
 
     /**

@@ -35,6 +35,11 @@
                                             {{ $user->role->name }}
                                         </p>
                                     </td>
+                                    @if($user->id !== auth()->user()->id)
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <a href="#" class="text-xs text-red-600 font-semibold">Ban</a>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

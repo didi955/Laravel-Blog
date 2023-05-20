@@ -10,5 +10,8 @@ class VerifyEmailQueued extends VerifyEmail implements ShouldQueue
 {
     use Queueable;
 
-    public $queue = 'notifications';
+    public function __construct()
+    {
+        $this->onQueue('notifications');
+    }
 }

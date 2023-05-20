@@ -11,8 +11,6 @@ class ResetPassword extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $queue = 'notifications';
-
     private $token;
 
     /**
@@ -20,6 +18,7 @@ class ResetPassword extends Notification implements ShouldQueue
      */
     public function __construct($token)
     {
+        $this->onQueue('notifications');
         $this->token = $token;
     }
 

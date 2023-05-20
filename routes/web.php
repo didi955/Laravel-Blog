@@ -60,16 +60,21 @@ Route::middleware(['auth', 'can:admin', 'verified'])->group(function () {
     Route::get('/admin/posts', [Admin\PostController::class, 'index'])->name('admin.posts.index');
     Route::post('/admin/posts', [Admin\PostController::class, 'store']);
     Route::get('/admin/posts/create', [Admin\PostController::class, 'create'])->name('admin.posts.create');
-    Route::get('/admin/posts/{post}/edit', [Admin\PostController::class, 'edit'])->name('admin.posts.edit');
-    Route::patch('/admin/posts/{post}', [Admin\PostController::class, 'update']);
-    Route::delete('/admin/posts/{post}', [Admin\PostController::class, 'destroy']);
+    Route::get('/admin/posts/{post:slug}/edit', [Admin\PostController::class, 'edit'])->name('admin.posts.edit');
+    Route::patch('/admin/posts/{post:slug}', [Admin\PostController::class, 'update']);
+    Route::delete('/admin/posts/{post:slug}', [Admin\PostController::class, 'destroy']);
 
+    // Categories
     Route::get('/admin/categories', [Admin\CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::post('/admin/categories', [Admin\CategoryController::class, 'store']);
+    Route::delete('/admin/categories/{category:slug}', [Admin\CategoryController::class, 'destroy']);
+
+    // Users
     Route::get('admin/users', [Admin\UserController::class, 'index'])->name('admin.users.index');
 
     // Draft Posts
     Route::post("/admin/posts/draft", [Admin\PostController::class, 'storeDraft'])->name("admin.posts.draft.store");
-    Route::patch("/admin/posts/{post}/draft", [Admin\PostController::class, 'updateDraft'])->name("admin.posts.draft.update");
+    Route::patch("/admin/posts/{post:slug}/draft", [Admin\PostController::class, 'updateDraft'])->name("admin.posts.draft.update");
 });
 
 

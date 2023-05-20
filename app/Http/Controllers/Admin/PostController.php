@@ -47,7 +47,7 @@ class PostController extends Controller
     {
         $attributes = $this->validatePost($request);
 
-        $post = Post::find($request->post);
+        $post = Post::where('slug', $request->post)->first();
 
         $post->update($attributes);
 
@@ -73,7 +73,7 @@ class PostController extends Controller
     {
         $attributes = $this->validatePost($request, true);
 
-        $post = Post::find($request->post);
+        $post = Post::where('slug', $request->post)->first();
 
         $post->update($attributes);
 

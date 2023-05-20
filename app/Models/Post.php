@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  *
@@ -46,7 +47,7 @@ class Post extends Model
                 ->orWhere('body', 'like', '%' . strtolower($search) . '%')
         ));
 
-        $query->when($filters['categories'] ?? false, fn($query, $category) =>
+        $query->when($filters['category'] ?? false, fn($query, $category) =>
             $query->whereHas('category', fn($query) =>
                 $query->where('slug', $category)
         ));
@@ -66,6 +67,16 @@ class Post extends Model
     public function setPublishedAtAttribute($value): void
     {
         $this->attributes['published_at'] = Carbon::parse($value);
+    }
+
+    public function setTitleAttribute($value): void
+    {
+        $this->attributes['title'] = $value;
+        $slug = Str::slug($value);
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = Str::slug($value) . '-' . Str::random(5);
+        }
+        $this->attributes['slug'] = $slug;
     }
 
     public function category(): BelongsTo

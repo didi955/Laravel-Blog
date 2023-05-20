@@ -14,7 +14,7 @@ class PostController extends Controller
         // return view with all posts that are published
         return view('posts.index', [
             'posts' => Post::where('status', PostStatus::PUBLISHED->value)->latest()->filter(
-                request(['search', 'categories', 'author'])
+                request(['search', 'category', 'author'])
             )->paginate(6)->withQueryString()
         ]);
     }

@@ -31,15 +31,14 @@ class PostRequest extends FormRequest
      */
     public function rules(): array
     {
-        $post = Post::find($this->route('post'));
+        $post = Post::where('slug', $this->route('post'))->first();
 
         return [
             'title' => 'required',
             'thumbnail' => $post && $post->exists ? ['image', 'max:1024'] : 'required|image|max:1024',
-            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post)],
             'excerpt' => 'required',
             'body' => 'required',
-            'category_id' => ['required', Rule::exists('categories', 'id')],
+            'category_id' => [Rule::exists('categories', 'id')],
             'published_at' => ['nullable', 'date', 'after:now']
         ];
     }
@@ -51,7 +50,6 @@ class PostRequest extends FormRequest
     {
         return [
             'title' => 'trim|strip_tags|cast:string',
-            'slug' => 'trim|strip_tags|cast:string',
             'excerpt' => 'trim|cast:string|strip_tags',
             'body' => 'trim|cast:string|escape_script_tag',
         ];

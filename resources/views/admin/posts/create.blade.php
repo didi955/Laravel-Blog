@@ -6,7 +6,6 @@
             @csrf
 
             <x-form.input name="title" required/>
-            <x-form.input name="slug" required/>
             <x-form.input name="thumbnail" type="file" required/>
             <x-form.textarea name="excerpt" class="markdown"
                       required>{{ old('excerpt') }}</x-form.textarea>
@@ -15,7 +14,7 @@
 
             <x-form.field>
                 <x-form.label name="category"/>
-                <select name="category_id" id="category" class="border border-gray-400 p-2 rounded w-1/3" required>
+                <select name="category_id" id="category" class="border border-gray-400 p-2 rounded w-1/3">
                     @foreach ($categories as $category)
                         <option
                             value="{{ $category->id }}"

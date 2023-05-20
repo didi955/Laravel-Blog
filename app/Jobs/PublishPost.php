@@ -17,14 +17,12 @@ class PublishPost implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $queue = 'publishing';
-
     /**
      * Create a new job instance.
      */
     public function __construct(public readonly Post $post, public readonly Carbon $date, private readonly bool $wasEdit = false)
     {
-        //
+        $this->onQueue('publishing');
     }
 
     /**

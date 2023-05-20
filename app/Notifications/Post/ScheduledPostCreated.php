@@ -12,14 +12,12 @@ class ScheduledPostCreated extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public $queue = 'notifications';
-
     /**
      * Create a new notification instance.
      */
     public function __construct(private readonly Post $post)
     {
-        //
+        $this->onQueue('notifications');
     }
 
     /**
