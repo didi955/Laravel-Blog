@@ -1,12 +1,11 @@
 <!doctype html>
 
-@vite('resources/css/app.css', 'build/')
+@vite('build/')
 
 <title>My blog</title>
 <title>Laravel From Scratch Blog</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-@vite('resources/js/alpine.js')
 @stack('other-scripts')
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
