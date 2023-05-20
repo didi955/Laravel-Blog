@@ -1,6 +1,6 @@
 <!doctype html>
 
-@vite('build/')
+@vite('public/build/manifest.json')
 
 <title>My blog</title>
 <title>Laravel From Scratch Blog</title>
