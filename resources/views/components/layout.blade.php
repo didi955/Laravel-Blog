@@ -1,6 +1,6 @@
 <!doctype html>
 
-@vite('resources/css/app.css', 'build/manifest.json')
+@vite('resources/css/app.css', 'build/')
 
 <title>My blog</title>
 <title>Laravel From Scratch Blog</title>
