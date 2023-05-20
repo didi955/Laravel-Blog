@@ -1,7 +1,5 @@
 <!doctype html>
 
-@vite('public/build/manifest.json')
-
 <title>My blog</title>
 <title>Laravel From Scratch Blog</title>
 <link rel="preconnect" href="https://fonts.gstatic.com">
