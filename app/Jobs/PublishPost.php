@@ -17,6 +17,8 @@ class PublishPost implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $queue = 'publishing';
+
     /**
      * Create a new job instance.
      */

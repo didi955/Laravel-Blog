@@ -11,6 +11,8 @@ class ResetPassword extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $queue = 'notifications';
+
     private $token;
 
     /**

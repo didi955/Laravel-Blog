@@ -12,6 +12,8 @@ class PostPublished extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    public $queue = 'notifications';
+
     /**
      * Create a new notification instance.
      */

@@ -145,7 +145,6 @@ class PostController extends Controller
             PostPublished::dispatch($post);
         }
         else if($post->status === PostStatus::PENDING){
-            // need rework, get available date inside a job ?
             PublishPost::dispatch($post, $post->published_at, $wasEdit)->delay($post->published_at);
         }
     }
