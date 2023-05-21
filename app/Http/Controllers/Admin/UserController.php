@@ -11,7 +11,7 @@ class UserController extends Controller
     {
         return view('admin.users.index', [
             'users' => User::latest()
-                ->paginate(20)
+                ->paginate(20),
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\User\ResetPassword;
 use App\Notifications\User\VerifyEmailQueued;
 use App\Utilities\Role;
+use Carbon\Carbon;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,31 +15,29 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
-use Carbon\Carbon;
 
 /**
- *
- * @property int $id
- * @property string $lastname
- * @property string $firstname
- * @property string $username
- * @property string $email
- * @property Role $role
- * @property string $password
+ * @property int         $id
+ * @property string      $lastname
+ * @property string      $firstname
+ * @property string      $username
+ * @property string      $email
+ * @property Role        $role
+ * @property string      $password
  * @property string|null $avatar
  * @property Carbon|null $email_verified_at
  * @property string|null $remember_token
- * @property Carbon $created_at
- * @property Carbon $updated_at
- *
+ * @property Carbon      $created_at
+ * @property Carbon      $updated_at
  * @property-read Collection|Bookmark[] $bookmarks
  * @property-read Collection|Post[] $posts
- *
  */
-
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, CanResetPassword;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use CanResetPassword;
 
     private const DEFAULT_AVATAR = 'default-avatar.png';
 
@@ -47,7 +46,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-
     protected $guarded = [];
 
     /**
@@ -67,12 +65,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed'
+        'password'          => 'hashed',
     ];
 
     public function setPasswordAttribute(?string $value): void
     {
-        if(Hash::needsRehash($value) ) {
+        if (Hash::needsRehash($value)) {
             $value = Hash::make($value);
         }
         $this->attributes['password'] = $value;
@@ -90,10 +88,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getAvatarAsset(): string
     {
-        if($this->attributes['avatar'] === null){
-            return asset('images/' . self::DEFAULT_AVATAR);
+        if ($this->attributes['avatar'] === null) {
+            return asset('images/'.self::DEFAULT_AVATAR);
         }
-        return asset('storage/' . $this->attributes['avatar']);
+
+        return asset('storage/'.$this->attributes['avatar']);
     }
 
     public function posts(): HasMany

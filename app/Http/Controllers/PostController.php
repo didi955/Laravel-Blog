@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Utilities\PostStatus;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -15,15 +14,14 @@ class PostController extends Controller
         return view('posts.index', [
             'posts' => Post::where('status', PostStatus::PUBLISHED->value)->latest()->filter(
                 request(['search', 'category', 'author'])
-            )->paginate(6)->withQueryString()
+            )->paginate(6)->withQueryString(),
         ]);
     }
 
     public function show(Post $post): View
     {
         return view('posts.show', [
-            'post' => $post
+            'post' => $post,
         ]);
     }
-
 }

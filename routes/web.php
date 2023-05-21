@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\Auth\SessionsController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\Admin;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -73,10 +73,6 @@ Route::middleware(['auth', 'can:admin', 'verified'])->group(function () {
     Route::get('admin/users', [Admin\UserController::class, 'index'])->name('admin.users.index');
 
     // Draft Posts
-    Route::post("/admin/posts/draft", [Admin\PostController::class, 'storeDraft'])->name("admin.posts.draft.store");
-    Route::patch("/admin/posts/{post:slug}/draft", [Admin\PostController::class, 'updateDraft'])->name("admin.posts.draft.update");
+    Route::post('/admin/posts/draft', [Admin\PostController::class, 'storeDraft'])->name('admin.posts.draft.store');
+    Route::patch('/admin/posts/{post:slug}/draft', [Admin\PostController::class, 'updateDraft'])->name('admin.posts.draft.update');
 });
-
-
-
-

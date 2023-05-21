@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NotifyScheduledPostCreated implements ShouldQueue
 {
-
     /**
      * Create the event listener.
      */
@@ -22,9 +21,10 @@ class NotifyScheduledPostCreated implements ShouldQueue
      */
     public function handle(PostCreated $event): void
     {
-        if(!$event->post->isScheduled()) return;
+        if (!$event->post->isScheduled()) {
+            return;
+        }
 
         $event->post->author->notify(new ScheduledPostCreated($event->post));
     }
-
 }

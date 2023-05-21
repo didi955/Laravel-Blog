@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class BookmarkFactory extends Factory
 {
-
     protected $model = \App\Models\Bookmark::class;
 
     /**

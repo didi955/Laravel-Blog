@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bookmark;
 use App\Models\Post;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -25,10 +24,10 @@ class BookmarkController extends Controller
 
         try {
             auth()->user()->bookmarks()->create($attributes);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return back()->with('error', 'Post already bookmarked');
         }
+
         return back()->with('success', 'Post bookmarked');
     }
 
@@ -36,10 +35,10 @@ class BookmarkController extends Controller
     {
         try {
             auth()->user()->bookmarks()->where('post_id', $post->id)->first()->delete();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return back()->with('error', 'Bookmark not found');
         }
+
         return back()->with('success', 'Bookmark deleted');
     }
 }

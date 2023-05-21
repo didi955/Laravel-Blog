@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Utilities\PostStatus;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,23 +12,19 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- *
- * @property string $title
- * @property string $slug
- * @property string $excerpt
- * @property string $body
- * @property PostStatus $status
- * @property string $thumbnail
- * @property Carbon $published_at
- * @property Carbon $created_at
+ * @property string      $title
+ * @property string      $slug
+ * @property string      $excerpt
+ * @property string      $body
+ * @property PostStatus  $status
+ * @property string      $thumbnail
+ * @property Carbon      $published_at
+ * @property Carbon      $created_at
  * @property Carbon|null $updated_at
- *
  * @property-read Category $categories
  * @property-read User $author
  * @property-read Collection|Comment[] $comments
- *
  */
-
 class Post extends Model
 {
     use HasFactory;
@@ -40,23 +35,21 @@ class Post extends Model
 
     public function scopeFilter($query, array $filters): void
     {
-        $query->when($filters['search'] ?? false, fn($query, $search) =>
-            $query->where(fn($query) =>
-                $query
-                ->where('title', 'like', '%' . strtolower($search) . '%')
-                ->orWhere('body', 'like', '%' . strtolower($search) . '%')
+        $query->when($filters['search'] ?? false, fn ($query, $search) => $query->where(
+            fn ($query) => $query
+                ->where('title', 'like', '%'.strtolower($search).'%')
+                ->orWhere('body', 'like', '%'.strtolower($search).'%')
         ));
 
-        $query->when($filters['category'] ?? false, fn($query, $category) =>
-            $query->whereHas('category', fn($query) =>
-                $query->where('slug', $category)
+        $query->when($filters['category'] ?? false, fn ($query, $category) => $query->whereHas(
+            'category',
+            fn ($query) => $query->where('slug', $category)
         ));
 
-        $query->when($filters['author'] ?? false, fn($query, $author) =>
-            $query->whereHas('author', fn($query) =>
-                $query->where('username', $author)
+        $query->when($filters['author'] ?? false, fn ($query, $author) => $query->whereHas(
+            'author',
+            fn ($query) => $query->where('username', $author)
         ));
-
     }
 
     public function getPublishedAtAttribute($value): Carbon
@@ -74,7 +67,7 @@ class Post extends Model
         $this->attributes['title'] = $value;
         $slug = Str::slug($value);
         while (Post::where('slug', $slug)->where('id', '!=', $this->id)->exists()) {
-            $slug = Str::slug($value) . '-' . Str::random(5);
+            $slug = Str::slug($value).'-'.Str::random(5);
         }
         $this->attributes['slug'] = $slug;
     }
@@ -114,9 +107,4 @@ class Post extends Model
     {
         // TODO: Implement notifySubscribers() method.
     }
-
-
 }
-
-
-

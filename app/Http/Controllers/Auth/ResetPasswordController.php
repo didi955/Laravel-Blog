@@ -13,7 +13,6 @@ use Illuminate\View\View;
 
 class ResetPasswordController extends Controller
 {
-
     public function create($token): View
     {
         return view('sessions.reset-password', ['token' => $token]);
@@ -22,8 +21,8 @@ class ResetPasswordController extends Controller
     public function resetPassword(): RedirectResponse
     {
         request()->validate([
-            'token' => 'required',
-            'email' => 'required|email',
+            'token'    => 'required',
+            'email'    => 'required|email',
             'password' => ['required', 'min:8', 'max:255', 'confirmed', Rules\Password::defaults()],
         ]);
 

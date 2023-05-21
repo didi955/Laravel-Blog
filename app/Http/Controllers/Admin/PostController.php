@@ -22,15 +22,15 @@ class PostController extends Controller
     {
         return view('admin.posts.index', [
             'posts' => Post::latest()
-                ->paginate(20)
+                ->paginate(20),
         ]);
     }
 
     public function store(PostRequest $request): RedirectResponse
     {
         $attributes = array_merge($this->validatePost($request), [
-            'user_id' => auth()->id(),
-            'thumbnail' => request()->file('thumbnail')-> store('thumbnails', 'public')
+            'user_id'   => auth()->id(),
+            'thumbnail' => request()->file('thumbnail')->store('thumbnails', 'public'),
         ]);
 
         $post = new Post($attributes);
@@ -59,8 +59,8 @@ class PostController extends Controller
     public function storeDraft(PostRequest $request): RedirectResponse
     {
         $attributes = array_merge($this->validatePost($request, true), [
-            'user_id' => auth()->id(),
-            'thumbnail' => request()->file('thumbnail')-> store('thumbnails', 'public')
+            'user_id'   => auth()->id(),
+            'thumbnail' => request()->file('thumbnail')->store('thumbnails', 'public'),
         ]);
 
         $post = new Post($attributes);
@@ -83,21 +83,21 @@ class PostController extends Controller
     public function create(): View
     {
         return view('admin.posts.create', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 
     public function edit(Post $post): View
     {
         return view('admin.posts.edit', [
-            'post' => $post,
-            'categories' => Category::all()
+            'post'       => $post,
+            'categories' => Category::all(),
         ]);
     }
 
     public function destroy(Post $post): RedirectResponse
     {
-        if($post->thumbnail){
+        if ($post->thumbnail) {
             Storage::disk('public')->delete($post->thumbnail);
         }
 
@@ -110,13 +110,14 @@ class PostController extends Controller
 
     /**
      * @param PostRequest $request
+     *
      * @return array
      */
     protected function validatePost(PostRequest $request, bool $draft = false): array
     {
         $attributes = $request->validated();
 
-        if($attributes['thumbnail'] ?? false){
+        if ($attributes['thumbnail'] ?? false) {
             $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails', 'public');
         }
 
@@ -141,12 +142,10 @@ class PostController extends Controller
 
     private function broadcast(Post $post, bool $wasEdit = false): void
     {
-        if($post->status === PostStatus::PUBLISHED && !$wasEdit){
+        if ($post->status === PostStatus::PUBLISHED && !$wasEdit) {
             PostPublished::dispatch($post);
-        }
-        else if($post->status === PostStatus::PENDING){
+        } elseif ($post->status === PostStatus::PENDING) {
             PublishPost::dispatch($post, $post->published_at, $wasEdit)->delay($post->published_at);
         }
     }
-
 }

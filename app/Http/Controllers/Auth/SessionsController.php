@@ -7,15 +7,14 @@ use App\Providers\RouteServiceProvider;
 use App\Utilities\RequestUtilities;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class SessionsController extends Controller
 {
-
     public function create(): View
     {
         return view('sessions.create');
@@ -27,7 +26,7 @@ class SessionsController extends Controller
     public function store(): RedirectResponse
     {
         $attributes = request()->validate([
-            'email' => ['required', 'email', Rule::exists('users', 'email')],
+            'email'    => ['required', 'email', Rule::exists('users', 'email')],
             'password' => ['required', 'min:8', 'max:255', Rules\Password::defaults()],
         ]);
 
@@ -35,7 +34,7 @@ class SessionsController extends Controller
 
         if (!Auth::attempt($attributes, $remember)) {
             throw ValidationException::withMessages([
-                'email' => 'Your provided credentials could not be verified.'
+                'email' => 'Your provided credentials could not be verified.',
             ]);
         }
 
@@ -59,6 +58,4 @@ class SessionsController extends Controller
     {
         return view('profile');
     }
-
-
 }
