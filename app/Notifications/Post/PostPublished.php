@@ -35,7 +35,7 @@ class PostPublished extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->line('Your Post has been published !')
             ->line('You can view it here:')
             ->action('View Post', route('posts.show', $this->post->slug));

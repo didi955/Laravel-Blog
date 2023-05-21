@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Events\Post\PostCreated;
 use App\Events\Post\PostPublished;
-use App\Listeners\Post\NotifyScheduledPostCreated;
 use App\Listeners\Post\NotifyPostPublished;
+use App\Listeners\Post\NotifyScheduledPostCreated;
 use App\Listeners\User\PasswordResetListener;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
@@ -20,8 +20,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class => [SendEmailVerificationNotification::class,],
-        PasswordReset::class => [PasswordResetListener::class,],
+        Registered::class    => [SendEmailVerificationNotification::class],
+        PasswordReset::class => [PasswordResetListener::class],
         PostPublished::class => [
             NotifyPostPublished::class,
         ],

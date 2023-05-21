@@ -8,6 +8,6 @@ class EscapeScriptTag implements Filter
 {
     public function apply($value, array $options = [])
     {
-        return preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $value);
+        return preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $value);
     }
 }

@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         Carbon::setLocale(app()->getLocale());
 
-        \Sanitizer::extend("escape_script_tag", EscapeScriptTag::class);
-        \Sanitizer::extend("escape_style_tag", EscapeStyleTag::class);
+        \Sanitizer::extend('escape_script_tag', EscapeScriptTag::class);
+        \Sanitizer::extend('escape_style_tag', EscapeStyleTag::class);
     }
 }

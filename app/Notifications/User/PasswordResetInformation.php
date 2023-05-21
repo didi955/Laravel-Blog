@@ -34,7 +34,7 @@ class PasswordResetInformation extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject('Password Reset Information')
             ->line('You have successfully reset your password.')
             ->line('If you did not request a password reset, please contact us immediately.');

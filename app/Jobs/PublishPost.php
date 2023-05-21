@@ -11,11 +11,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use function Illuminate\Tests\Integration\Routing\fail;
 
 class PublishPost implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -30,12 +32,13 @@ class PublishPost implements ShouldQueue
      */
     public function handle(): void
     {
-        if($this->post->status === PostStatus::PENDING && $this->date->eq($this->post->published_at)){
+        if ($this->post->status === PostStatus::PENDING && $this->date->eq($this->post->published_at)) {
             $this->post->update([
                 'status' => PostStatus::PUBLISHED,
             ]);
-            if(!$this->wasEdit)
+            if (!$this->wasEdit) {
                 PostPublished::dispatch($this->post, true);
+            }
         }
     }
 }

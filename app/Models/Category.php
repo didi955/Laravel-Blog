@@ -9,15 +9,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- *
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $slug
- *
  * @property-read Collection|Post[] $posts
- *
  */
-
 class Category extends Model
 {
     use HasFactory;
@@ -34,6 +30,4 @@ class Category extends Model
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
-
-
 }

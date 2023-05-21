@@ -2,16 +2,15 @@
 
 namespace App\Utilities;
 
-enum Role : string
+enum Role: string
 {
-
     case ADMIN = 'Admin';
     case MEMBER = 'Member';
 
     public function power(): int
     {
-        return match($this->value){
-            'Admin' => 99,
+        return match ($this->value) {
+            'Admin'  => 99,
             'Member' => 10,
         };
     }
@@ -25,5 +24,4 @@ enum Role : string
     {
         return $this->power() > $otherRole->power();
     }
-
 }

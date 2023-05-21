@@ -8,6 +8,6 @@ class EscapeStyleTag implements Filter
 {
     public function apply($value, array $options = [])
     {
-        return preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', "", $value);
+        return preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', '', $value);
     }
 }
