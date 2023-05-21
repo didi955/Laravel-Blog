@@ -20,6 +20,7 @@ Here are the major new features :
 ### Further Ideas
 
 - !! Unit & functional tests with Pest !!
+- Messages & timezones user's localization
 - Allow registered users to "follow" certain authors. When they publish a new post, an email should be delivered to all followers.
 - Record/Track and display the "views_count" for each post.
 - Ban system
