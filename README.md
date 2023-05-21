@@ -1,6 +1,6 @@
 # About Laravel Blog
 
-[![StyleCI](https://github.styleci.io/repos/631714188/shield?branch=master)](https://github.styleci.io/repos
+[![StyleCI](https://github.styleci.io/repos/631714188/shield?branch=master)
 
 [Laravel Blog](https://blog.dylan-lannuzel.fr) is a project for learning the Laravel framework based on Jeffrey Way's web application from the [Laracasts](https://laracasts.com) series, [Laravel From Scratch](https://laravelfromscratch.com).
 I have developed this application in parallel with this series.
