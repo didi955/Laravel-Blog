@@ -15,6 +15,7 @@
             <x-form.field>
                 <x-form.label name="category"/>
                 <select name="category_id" id="category" class="border border-gray-400 p-2 rounded w-1/3">
+                    <option disabled>Select a category...</option>
                     @foreach ($categories as $category)
                         <option
                             value="{{ $category->id }}"

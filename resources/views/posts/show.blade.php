@@ -38,7 +38,9 @@
                         </a>
 
                         <div class="space-x-2">
-                            <x-bookmark-button :post="$post"/>
+                            @auth
+                                <x-bookmark-button :post="$post"/>
+                            @endauth
                             <x-category-button :category="$post->category"/>
                         </div>
                     </div>

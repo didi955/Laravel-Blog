@@ -73,7 +73,7 @@ class Post extends Model
     {
         $this->attributes['title'] = $value;
         $slug = Str::slug($value);
-        while (Post::where('slug', $slug)->exists()) {
+        while (Post::where('slug', $slug)->where('id', '!=', $this->id)->exists()) {
             $slug = Str::slug($value) . '-' . Str::random(5);
         }
         $this->attributes['slug'] = $slug;
