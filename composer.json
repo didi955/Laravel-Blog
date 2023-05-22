@@ -1,9 +1,8 @@
 {
     "name": "didi955/blog",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
+    "description": "Laravel Blog is a project for learning the Laravel framework based on Jeffrey Way's web application from the Laracasts series, Laravel From Scratch. I have developed this application in parallel with this series.",
+    "keywords": ["blog", "laravel"],
     "require": {
         "php": "^8.2",
         "elegantweb/sanitizer": "*",
