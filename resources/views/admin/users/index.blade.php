@@ -21,14 +21,22 @@
                                         </div>
                                     </td>
                                     <td class="px-2 whitespace-nowrap">
-                                        <p>
-                                            {{ $user->firstname . ' ' . $user->lastname }}
-                                        </p>
+                                        @if($user->id !== auth()->user()->id)
+                                            {{ \Illuminate\Support\Str::mask($user->firstname . ' ' . $user->lastname, '*', 3) }}
+                                        @else
+                                            <p>
+                                                {{ $user->firstname . ' ' . $user->lastname }}
+                                            </p>
+                                        @endif
                                     </td>
                                     <td class="px-2 whitespace-nowrap">
-                                        <p>
-                                            {{ $user->email }}
-                                        </p>
+                                        @if($user->id !== auth()->user()->id)
+                                            {{ \Illuminate\Support\Str::mask($user->email, '*', 3) }}
+                                        @else
+                                            <p>
+                                                {{ $user->email }}
+                                            </p>
+                                        @endif
                                     </td>
                                     <td class="px-2 whitespace-nowrap">
                                         <p>
