@@ -44,6 +44,7 @@ class UserController extends Controller
             $user->email_verified_at = null;
             $user->sendEmailVerificationNotification();
         }
+
         return back()->with('success', 'Profile updated successfully');
     }
 }
