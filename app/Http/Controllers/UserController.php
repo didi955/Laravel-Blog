@@ -35,15 +35,15 @@ class UserController extends Controller
                 }
             }
             $user->update($attributes);
-        } catch(\Exception $e) {
+        } catch(\Exception) {
             return back()->with('error', 'An error occured while updating your profile');
         }
 
-        // send email verification if email has changed
+        // invalidate and send another email verification notification if email has changed
         if ($user->wasChanged('email')) {
+            $user->email_verified_at = null;
             $user->sendEmailVerificationNotification();
         }
-
         return back()->with('success', 'Profile updated successfully');
     }
 }
