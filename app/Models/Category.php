@@ -25,7 +25,7 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function setNameAttribute($value): void
+    public function setNameAttribute(string $value): void
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);

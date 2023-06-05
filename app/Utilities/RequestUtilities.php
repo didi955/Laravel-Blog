@@ -4,7 +4,7 @@ namespace App\Utilities;
 
 class RequestUtilities
 {
-    public static function convertCheckboxValueToBoolean($value): bool
+    public static function convertCheckboxValueToBoolean(string $value): bool
     {
         if (isset($value)) {
             if ($value === 'on') {

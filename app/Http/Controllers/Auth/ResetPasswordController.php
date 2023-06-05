@@ -13,7 +13,7 @@ use Illuminate\View\View;
 
 class ResetPasswordController extends Controller
 {
-    public function create($token): View
+    public function create(string $token): View
     {
         return view('sessions.reset-password', ['token' => $token]);
     }
