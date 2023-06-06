@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Console\Command;
 
 class CreateAdmin extends Command
 {
@@ -46,6 +46,7 @@ class CreateAdmin extends Command
         $confirmPassword = $this->secret('Confirm password');
         if ($password !== $confirmPassword) {
             $this->error('Passwords do not match!');
+
             return 1;
         }
 
