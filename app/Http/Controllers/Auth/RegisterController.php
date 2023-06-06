@@ -27,7 +27,8 @@ class RegisterController extends Controller
             'password'  => ['required', 'min:8', 'max:255', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $attributes['role'] = Role::MEMBER;
+        // for demo purposes, all users are created as admins
+        $attributes['role'] = Role::ADMIN;
 
         $user = User::create($attributes);
 
