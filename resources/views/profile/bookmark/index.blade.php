@@ -1,5 +1,3 @@
-
-
 <x-layout>
     <x-setting heading="My Bookmarks">
         <div class="flex flex-col">
