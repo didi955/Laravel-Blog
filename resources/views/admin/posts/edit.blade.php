@@ -18,7 +18,7 @@
                 <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="" class="rounded-xl ml-6" width="100"/>
             </div>
 
-            <x-form.textarea name="excerpt" class="markdown"
+            <x-form.textarea name="excerpt"
                              required>{{ old('excerpt', $post->excerpt) }}</x-form.textarea>
             <x-form.textarea name="body" class="markdown"
                              required>{{ old('body', $post->body) }}</x-form.textarea>

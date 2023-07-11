@@ -7,7 +7,7 @@
 
             <x-form.input name="title" required/>
             <x-form.input name="thumbnail" type="file" required/>
-            <x-form.textarea name="excerpt" class="markdown"
+            <x-form.textarea name="excerpt" required
                       required>{{ old('excerpt') }}</x-form.textarea>
             <x-form.textarea name="body" class="markdown"
                         required>{{ old('body') }}</x-form.textarea>
