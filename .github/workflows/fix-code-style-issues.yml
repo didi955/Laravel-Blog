@@ -18,6 +18,9 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Install Pint
+        run: composer require laravel/pint --dev
+
       - name: Fix PHP code style issues
         run: ./vendor/bin/pint
 
