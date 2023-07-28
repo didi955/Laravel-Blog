@@ -2,9 +2,9 @@ name: run-tests
 
 on:
   push:
-    branches: [master, main]
+    branches: [master, main, dylan-lannuzel.fr]
   pull_request:
-    branches: [main, master]
+    branches: [master, main, dylan-lannuzel.fr]
 
 jobs:
   test:
