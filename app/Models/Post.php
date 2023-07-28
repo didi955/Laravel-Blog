@@ -100,7 +100,6 @@ class Post extends Model
     {
         return Attribute::make(
             get: fn (string $value): PostStatus => PostStatus::from($value),
-            set: fn (PostStatus $value): string => $value->value,
         );
     }
 
