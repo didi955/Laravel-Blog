@@ -30,7 +30,9 @@ jobs:
           coverage: xdebug
 
       - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+        run: |
+        composer install --no-interaction --prefer-dist --optimize-autoloader
+        npm install
 
       - name: Copy .env
         run: cp .env.example .env
