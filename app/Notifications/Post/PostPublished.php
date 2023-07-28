@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications\Post;
 
 use App\Models\Post;
@@ -35,8 +37,10 @@ class PostPublished extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $title = $this->wasDelayed ? 'Your Scheduled Post has been published !' : 'Your Post has been published !';
+
         return (new MailMessage())
-            ->line('Your Post has been published !')
+            ->line($title)
             ->line('You can view it here:')
             ->action('View Post', route('posts.show', $this->post->slug));
     }
@@ -49,7 +53,7 @@ class PostPublished extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            //
+
         ];
     }
 }

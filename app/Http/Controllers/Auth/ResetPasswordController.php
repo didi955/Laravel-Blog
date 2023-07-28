@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -21,14 +23,14 @@ class ResetPasswordController extends Controller
     public function resetPassword(): RedirectResponse
     {
         request()->validate([
-            'token'    => 'required',
-            'email'    => 'required|email',
-            'password' => ['required', 'min:8', 'max:255', 'confirmed', Rules\Password::defaults()],
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => [Rules\Password::min(8)->letters()->numbers()->mixedCase()->symbols()->required(), 'max:255', 'confirmed']
         ]);
 
         $status = Password::reset(
             request()->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
+            function (User $user, string $password): void {
                 $user->forceFill([
                     'password' => $password,
                 ])->setRememberToken(Str::random(60));
@@ -39,7 +41,7 @@ class ResetPasswordController extends Controller
             }
         );
 
-        return $status == Password::PASSWORD_RESET
+        return Password::PASSWORD_RESET === $status
             ? redirect()->route('login')->with('success', __($status))
             : back()->withInput(request()->only('email'))
                 ->withErrors(['email' => __($status)]);

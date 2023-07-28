@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Models\Post;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 /**
- * @property-read Post $post
+ * @property-read string $post
  */
 class PostRequest extends FormRequest
 {
@@ -33,11 +35,11 @@ class PostRequest extends FormRequest
         $post = Post::where('slug', $this->route('post'))->first();
 
         return [
-            'title'        => 'required',
-            'thumbnail'    => $post && $post->exists ? ['image', 'max:1024'] : 'required|image|max:1024',
-            'excerpt'      => 'required',
-            'body'         => 'required',
-            'category_id'  => [Rule::exists('categories', 'id')],
+            'title' => 'required',
+            'thumbnail' => $post && $post->exists ? ['image', 'max:1024'] : 'required|image|max:1024',
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => [Rule::exists('categories', 'id')],
             'published_at' => ['nullable', 'date', 'after:now'],
         ];
     }
@@ -48,9 +50,9 @@ class PostRequest extends FormRequest
     public function filters(): array
     {
         return [
-            'title'   => 'trim|strip_tags|cast:string',
+            'title' => 'trim|strip_tags|cast:string',
             'excerpt' => 'trim|cast:string|strip_tags',
-            'body'    => 'trim|cast:string|escape_script_tag',
+            'body' => 'trim|cast:string|escape_script_tag',
         ];
     }
 

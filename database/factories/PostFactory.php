@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Category;
@@ -22,15 +24,15 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'      => User::factory(),
-            'category_id'  => Category::factory(),
-            'thumbnail'    => 'thumbnails/default-thumbnail.png',
-            'title'        => $this->faker->words(3, true),
-            'slug'         => $this->faker->slug(),
-            'status'       => PostStatus::PUBLISHED->value,
+            'user_id' => User::factory(),
+            'category_id' => Category::factory(),
+            'thumbnail' => 'thumbnails/default-thumbnail.png',
+            'title' => $this->faker->words(3, true),
+            'slug' => $this->faker->slug(),
+            'status' => PostStatus::PUBLISHED->value,
             'published_at' => $this->faker->dateTimeBetween('-1 year'),
-            'excerpt'      => '<p>'.$this->faker->paragraph(2).'</p>',
-            'body'         => '<p>'.implode('</p><p>', $this->faker->paragraphs(6)).'</p>',
+            'excerpt' => '<p>' . $this->faker->paragraph(2) . '</p>',
+            'body' => '<p>' . implode('</p><p>', $this->faker->paragraphs(6)) . '</p>',
         ];
     }
 }

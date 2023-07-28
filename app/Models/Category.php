@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,14 +23,27 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug'];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        if($attributes['name'] ?? false) {
+            $this->slug = $attributes['name'];
+        }
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    public function setNameAttribute(string $value): void
+    public function name(): Attribute
     {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug($value);
+        return Attribute::make(
+            set: function (string $value): string {
+                $this->slug = Str::slug($value);
+                return $value;
+            },
+        );
     }
+
 }

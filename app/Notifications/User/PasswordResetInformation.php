@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications\User;
 
 use Illuminate\Bus\Queueable;
@@ -48,7 +50,7 @@ class PasswordResetInformation extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            //
+
         ];
     }
 }

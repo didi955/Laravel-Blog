@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -22,8 +24,8 @@ class ForgotPasswordController extends Controller
             request()->only('email')
         );
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('success', 'Password reset link sent to your email.')
+        return Password::RESET_LINK_SENT === $status
+            ? back()->with('success', 'Password reset link sent to your email')
             : back()->withErrors(['email' => [__($status)]]);
     }
 }

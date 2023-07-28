@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Events\Post;
 
 use App\Models\Post;
@@ -19,7 +21,7 @@ class PostPublished
      */
     public function __construct(public readonly Post $post, public readonly bool $wasDelayed = false)
     {
-        //
+
     }
 
     /**
