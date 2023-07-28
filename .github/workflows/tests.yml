@@ -14,7 +14,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         php: [8.2]
-        laravel: [10.*]
         stability: [prefer-stable]
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
@@ -31,9 +30,7 @@ jobs:
           coverage: xdebug
 
       - name: Install dependencies
-        run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Generate App key
         run: php artisan key:generate
