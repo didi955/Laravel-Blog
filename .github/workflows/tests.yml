@@ -38,6 +38,9 @@ jobs:
       - name: Generate App key
         run: php artisan key:generate
 
+      - name: NPM Build
+        run: npm run build
+
       - name: Execute tests
         run: vendor/bin/pest --coverage-clover storage/coverage/coverage.xml
 
