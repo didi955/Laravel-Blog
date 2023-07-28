@@ -1,6 +1,8 @@
 # About Laravel Blog
 
-[![StyleCI](https://github.styleci.io/repos/631714188/shield?branch=master)](https://github.styleci.io/repos/631714188?branch=master)
+[![Tests Status](https://github.com/didi955/Laravel-Blog/actions/workflows/tests.yml/badge.svg)](https://github.com/didi955/Laravel-Blog/actions/workflows/tests.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/didi955/laravel-blog/badge)](https://www.codefactor.io/repository/github/didi955/laravel-blog)
+[![codecov](https://codecov.io/gh/didi955/Laravel-Blog/branch/master/graph/badge.svg?token=2S5I3NLZDO)](https://codecov.io/gh/didi955/Laravel-Blog)
 
 [Laravel Blog](https://blog.dylan-lannuzel.fr) is a project for learning the Laravel framework based on Jeffrey Way's web application from the [Laracasts](https://laracasts.com) series, [Laravel From Scratch](https://laravelfromscratch.com).
 I have developed this application in parallel to this series.
@@ -21,10 +23,8 @@ Here are the major new features :
 
 ### Further Ideas
 
-- !! Unit & functional tests with Pest !!
 - Messages & timezones user's localization
 - Allow registered users to "follow" certain authors. When they publish a new post, an email should be delivered to all followers.
-- Record/Track and display the "views_count" for each post.
 - Ban system
 
 ## Warning
