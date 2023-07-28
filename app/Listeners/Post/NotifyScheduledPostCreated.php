@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners\Post;
 
 use App\Events\Post\PostCreated;
@@ -13,7 +15,7 @@ class NotifyScheduledPostCreated implements ShouldQueue
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -21,7 +23,7 @@ class NotifyScheduledPostCreated implements ShouldQueue
      */
     public function handle(PostCreated $event): void
     {
-        if (!$event->post->isScheduled()) {
+        if ( ! $event->post->isScheduled()) {
             return;
         }
 

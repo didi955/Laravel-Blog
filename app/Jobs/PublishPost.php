@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs;
 
 use App\Events\Post\PostPublished;
@@ -32,11 +34,11 @@ class PublishPost implements ShouldQueue
      */
     public function handle(): void
     {
-        if ($this->post->status === PostStatus::PENDING && $this->date->eq($this->post->published_at)) {
+        if (PostStatus::PENDING === $this->post->status && $this->date->eq($this->post->published_at)) {
             $this->post->update([
                 'status' => PostStatus::PUBLISHED,
             ]);
-            if (!$this->wasEdit) {
+            if ( ! $this->wasEdit) {
                 PostPublished::dispatch($this->post, true);
             }
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Events\Post\PostCreated;
@@ -20,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class    => [SendEmailVerificationNotification::class],
+        Registered::class => [SendEmailVerificationNotification::class],
         PasswordReset::class => [PasswordResetListener::class],
         PostPublished::class => [
             NotifyPostPublished::class,
@@ -35,7 +37,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 
     /**

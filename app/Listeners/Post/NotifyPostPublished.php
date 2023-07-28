@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners\Post;
 
 use App\Events\Post\PostPublished;
@@ -12,7 +14,7 @@ class NotifyPostPublished implements ShouldQueue
      */
     public function __construct()
     {
-        //
+
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Post;
@@ -18,15 +20,14 @@ class BookmarkController extends Controller
     public function store(Post $post): RedirectResponse
     {
         $attributes = [
-            'user_id' => auth()->id(),
             'post_id' => $post->id,
         ];
 
-        try {
-            auth()->user()->bookmarks()->create($attributes);
-        } catch (\Exception $e) {
+        if(auth()->user()->bookmarks()->where($attributes)->exists()) {
             return back()->with('error', 'Post already bookmarked');
         }
+
+        auth()->user()->bookmarks()->create($attributes);
 
         return back()->with('success', 'Post bookmarked');
     }
@@ -34,8 +35,9 @@ class BookmarkController extends Controller
     public function destroy(Post $post): RedirectResponse
     {
         try {
-            auth()->user()->bookmarks()->where('post_id', $post->id)->first()->delete();
-        } catch (\Exception $e) {
+            auth()->user()->bookmarks()->where('post_id', $post->id)->first()
+                ->delete();
+        } catch (\Exception) {
             return back()->with('error', 'Bookmark not found');
         }
 
