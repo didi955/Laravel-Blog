@@ -17,6 +17,8 @@ it('can comment on a post', function (): void {
 
     $this->assertDatabaseHas('comments', ['body' => 'This is a comment']);
 
+    expect($post->comments()->count())->toBe(1);
+
     $this->get(route('posts.show', $post))
         ->assertSuccessful()
         ->assertSeeText('This is a comment');

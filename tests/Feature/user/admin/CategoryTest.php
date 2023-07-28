@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\User;
 
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\User;
 use App\Utilities\Role;
 
@@ -121,4 +122,17 @@ it('can delete a category', function (): void {
 
     $this->assertDatabaseMissing('categories', ['name' => $categoryName]);
 
+});
+
+test('Category Relation', function (): void {
+    $category = Category::factory()->create();
+
+    $post = Post::factory()->create();
+
+    $category->posts()->save($post);
+
+    expect($category->posts()->first()->category->name)->toBe($category->name)
+        ->and($category->posts()
+            ->first()->slug)
+        ->toBe($post->slug);
 });

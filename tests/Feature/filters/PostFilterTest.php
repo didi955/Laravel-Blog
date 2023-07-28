@@ -29,18 +29,17 @@ test('Filter post works as expected', function (): void {
         'body' => 'A post about sport'
     ]);
 
-    var_dump(Post::filter(['search' => 'food'])->get());
-
     $filteredPosts = Post::filter(['search' => 'food'])->get();
-    expect($filteredPosts)->toContain($post1)
-        ->and($filteredPosts)->not()->toContain($post2);
+
+    expect($filteredPosts->contains($post1))
+        ->and($filteredPosts->contains($post2))->toBeFalse();
 
     $filteredPosts = Post::filter(['category' => 'sport'])->get();
-    expect($filteredPosts)->toContain($post2)
-        ->and($filteredPosts)->not()->toContain($post1);
+    expect($filteredPosts->contains($post2))
+        ->and($filteredPosts->contains($post1))->toBeFalse();
 
-    $filteredPosts = Post::filter(['author' => 'john'])->get();
-    expect($filteredPosts)->toContain($post1)
-        ->and($filteredPosts)->not()->toContain($post2);
+    $filteredPosts = Post::filter(['author' => 'jane'])->get();
+    expect($filteredPosts->contains($post2))
+        ->and($filteredPosts->contains($post1))->toBeFalse();
 
 });
