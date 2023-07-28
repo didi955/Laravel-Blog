@@ -1,41 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Utilities\Role;
+use App\Http\Requests\RegisterRequest;
+use App\Providers\RouteServiceProvider;
+use App\Services\RegisterService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
+    public function __construct(private readonly RegisterService $registerService)
+    {
+    }
+
     public function create(): View
     {
         return view('register.create');
     }
 
-    public function store(): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $attributes = request()->validate([
-            'lastname'  => ['required', 'string', 'min:3', 'max:255'],
-            'firstname' => ['required', 'string', 'min:3', 'max:255'],
-            'username'  => ['required', 'string', 'min:3', 'max:255', 'alpha_dash', Rule::unique('users', 'username')],
-            'email'     => ['required', 'email', 'max:255', Rule::unique('users', 'email')],
-            'password'  => ['required', 'min:8', 'max:255', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $attributes = $request->validated();
 
-        // for demo purposes, all users are created as admins
-        $attributes['role'] = Role::ADMIN;
+        $this->registerService->register($attributes);
 
-        $user = User::create($attributes);
-
-        $user->sendEmailVerificationNotification();
-
-        auth()->login($user);
-
-        return redirect('/')->with('success', 'Your account has been created, please verify your email address.');
+        return redirect(RouteServiceProvider::HOME)->with('success', 'Your account has been created, please verify your email address');
     }
 }

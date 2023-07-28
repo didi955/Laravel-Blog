@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Notifications\User\ResetPassword;
@@ -8,6 +10,7 @@ use App\Utilities\Role;
 use Carbon\Carbon;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,10 +37,10 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use CanResetPassword;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use CanResetPassword;
 
     private const DEFAULT_AVATAR = 'default-avatar.png';
 
@@ -65,34 +68,16 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
+        'password' => 'hashed',
     ];
-
-    public function setPasswordAttribute(?string $value): void
-    {
-        if (Hash::needsRehash($value)) {
-            $value = Hash::make($value);
-        }
-        $this->attributes['password'] = $value;
-    }
-
-    public function setEmailAttribute(string $email): void
-    {
-        $this->attributes['email'] = trim(strtolower($email));
-    }
-
-    public function getRoleAttribute(string $value): Role
-    {
-        return Role::from($value);
-    }
 
     public function getAvatarAsset(): string
     {
-        if ($this->attributes['avatar'] === null) {
-            return asset('images/'.self::DEFAULT_AVATAR);
+        if (null === $this->attributes['avatar']) {
+            return asset('images/' . self::DEFAULT_AVATAR);
         }
 
-        return asset('storage/'.$this->attributes['avatar']);
+        return asset('storage/' . $this->attributes['avatar']);
     }
 
     public function posts(): HasMany
@@ -115,7 +100,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @param  string  $token
      */
-    public function sendPasswordResetNotification($token): void
+    public function sendPasswordResetNotification(mixed $token): void
     {
         $url = route('password.reset', [
             'token' => $token,
@@ -128,5 +113,31 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasBookmarked(Post $post): bool
     {
         return $this->bookmarks()->where('post_id', $post->id)->limit(1)->exists();
+    }
+
+    public function password(): Attribute
+    {
+        return Attribute::make(
+            set: function (?string $value): ?string {
+                if (Hash::needsRehash($value)) {
+                    $value = Hash::make($value);
+                }
+                return $value;
+            },
+        );
+    }
+
+    public function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value): string => trim(mb_strtolower($value)),
+        );
+    }
+
+    public function role(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value): Role => Role::from($value),
+        );
     }
 }

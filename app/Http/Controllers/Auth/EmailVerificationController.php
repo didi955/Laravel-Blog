@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -18,17 +21,17 @@ class EmailVerificationController extends Controller
     {
         $request->fulfill();
 
-        return redirect('/')->with('success', 'Your email address has been verified.');
+        return redirect(RouteServiceProvider::HOME)->with('success', 'Your email address has been verified');
     }
 
     public function resend(): RedirectResponse
     {
         if (request()->user()->hasVerifiedEmail()) {
-            return redirect('/');
+            return redirect(RouteServiceProvider::HOME);
         }
 
         request()->user()->sendEmailVerificationNotification();
 
-        return back()->with('success', 'Email verification link sent!');
+        return back()->with('success', 'Email verification link sent !');
     }
 }

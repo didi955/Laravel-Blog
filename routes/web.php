@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,11 +26,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PostController::class, 'index'])->name('home');
+Route::get(RouteServiceProvider::HOME, [PostController::class, 'index'])->name('home');
 
 Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.show');
 
-Route::middleware(['guest'])->group(function () {
+Route::middleware(['guest'])->group(function (): void {
     // Registration & Login
     Route::get('/register', [RegisterController::class, 'create'])->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
@@ -41,14 +44,14 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function (): void {
     Route::get('/profile', [UserController::class, 'index'])->name('profile');
     Route::patch('/profile', [UserController::class, 'update']);
     Route::post('/logout', [SessionsController::class, 'destroy'])->name('logout');
-    Route::post('/posts/{post:slug}/comments', [PostCommentsController::class, 'store']);
+    Route::post('/posts/{post:slug}/comments', [PostCommentsController::class, 'store'])->name('posts.comments.store');
     Route::get('/my-bookmarks', [BookmarkController::class, 'index'])->name('my-bookmarks');
-    Route::post('/bookmarks/{post:slug}', [BookmarkController::class, 'store']);
-    Route::delete('/bookmarks/{post:slug}', [BookmarkController::class, 'destroy']);
+    Route::post('/bookmarks/{post:slug}', [BookmarkController::class, 'store'])->name('bookmark.store');
+    Route::delete('/bookmarks/{post:slug}', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
 
     // Email Verification
     Route::get('/email/verify', [EmailVerificationController::class, 'create'])->middleware('auth')->name('verification.notice');
@@ -56,18 +59,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 
-Route::middleware(['auth', 'can:admin', 'verified'])->group(function () {
+Route::middleware(['auth', 'can:admin', 'verified'])->group(function (): void {
     Route::get('/admin/posts', [Admin\PostController::class, 'index'])->name('admin.posts.index');
-    Route::post('/admin/posts', [Admin\PostController::class, 'store']);
+    Route::post('/admin/posts', [Admin\PostController::class, 'store'])->name('admin.posts.store');
     Route::get('/admin/posts/create', [Admin\PostController::class, 'create'])->name('admin.posts.create');
     Route::get('/admin/posts/{post:slug}/edit', [Admin\PostController::class, 'edit'])->name('admin.posts.edit');
-    Route::patch('/admin/posts/{post:slug}', [Admin\PostController::class, 'update']);
-    Route::delete('/admin/posts/{post:slug}', [Admin\PostController::class, 'destroy']);
+    Route::patch('/admin/posts/{post:slug}', [Admin\PostController::class, 'update'])->name('admin.posts.update');
+    Route::delete('/admin/posts/{post:slug}', [Admin\PostController::class, 'destroy'])->name('admin.posts.destroy');
 
     // Categories
     Route::get('/admin/categories', [Admin\CategoryController::class, 'index'])->name('admin.categories.index');
-    Route::post('/admin/categories', [Admin\CategoryController::class, 'store']);
-    Route::delete('/admin/categories/{category:slug}', [Admin\CategoryController::class, 'destroy']);
+    Route::post('/admin/categories', [Admin\CategoryController::class, 'store'])->name('admin.categories.store');
+    Route::delete('/admin/categories/{category:slug}', [Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
     // Users
     Route::get('admin/users', [Admin\UserController::class, 'index'])->name('admin.users.index');

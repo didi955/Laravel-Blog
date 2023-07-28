@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Post;
@@ -15,7 +17,7 @@ class PostCommentsController extends Controller
 
         $post->comments()->create([
             'user_id' => auth()->id(),
-            'body'    => request('body'),
+            'body' => request('body'),
         ]);
 
         return back();

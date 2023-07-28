@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners\User;
 
 use App\Notifications\User\PasswordResetInformation;
+use Illuminate\Auth\Events\PasswordReset;
 
 class PasswordResetListener
 {
@@ -11,13 +14,13 @@ class PasswordResetListener
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(PasswordReset $event): void
     {
         $event->user->notify(new PasswordResetInformation());
     }

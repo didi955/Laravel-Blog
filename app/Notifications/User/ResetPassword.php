@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Notifications\User;
 
 use Illuminate\Bus\Queueable;
@@ -11,12 +13,12 @@ class ResetPassword extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $token;
+    private string $token;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($token)
+    public function __construct(string $token)
     {
         $this->onQueue('notifications');
         $this->token = $token;
@@ -52,7 +54,7 @@ class ResetPassword extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            //
+
         ];
     }
 }

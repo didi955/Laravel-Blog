@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Utilities;
 
 enum Role: string
@@ -10,7 +12,7 @@ enum Role: string
     public function power(): int
     {
         return match ($this->value) {
-            'Admin'  => 99,
+            'Admin' => 99,
             'Member' => 10,
         };
     }
@@ -23,5 +25,20 @@ enum Role: string
     public function isHigherThan(Role $otherRole): bool
     {
         return $this->power() > $otherRole->power();
+    }
+
+    public function isLowerEqualThan(Role $otherRole): bool
+    {
+        return $this->power() <= $otherRole->power();
+    }
+
+    public function isLowerThan(Role $otherRole): bool
+    {
+        return $this->power() < $otherRole->power();
+    }
+
+    public function isEquals(Role $otherRole): bool
+    {
+        return $this->power() === $otherRole->power();
     }
 }
