@@ -40,7 +40,7 @@ class PostRequest extends FormRequest
             'excerpt' => 'required',
             'body' => 'required',
             'category_id' => [Rule::exists('categories', 'id')],
-            'published_at' => ['nullable', 'date', 'after:now'],
+            'published_at' => ['nullable', 'date', 'after:now', 'date_format:Y-m-d\TH:i'],
         ];
     }
 

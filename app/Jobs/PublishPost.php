@@ -34,7 +34,7 @@ class PublishPost implements ShouldQueue
      */
     public function handle(): void
     {
-        if (PostStatus::PENDING === $this->post->status && $this->date->eq($this->post->published_at)) {
+        if (PostStatus::PENDING === $this->post->status && $this->post->published_at->lte($this->date)) {
             $this->post->update([
                 'status' => PostStatus::PUBLISHED,
             ]);

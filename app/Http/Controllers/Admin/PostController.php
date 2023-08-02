@@ -9,8 +9,10 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\PostService;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
@@ -101,6 +103,12 @@ class PostController extends Controller
     ): array {
         $attributes = $request->validated();
 
-        return $this->postService->processStatus($attributes, $draft);
+        try {
+            return $this->postService->processStatus($attributes, $draft);
+        } catch (InvalidFormatException) {
+            throw ValidationException::withMessages([
+                'published_at' => 'The published date is invalid.',
+            ]);
+        }
     }
 }

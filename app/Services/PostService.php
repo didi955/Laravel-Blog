@@ -67,6 +67,7 @@ class PostService
                 'Y-m-d\TH:i',
                 $attributes['published_at']
             );
+
         }
 
         return $attributes;
