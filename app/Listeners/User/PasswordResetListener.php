@@ -6,9 +6,12 @@ namespace App\Listeners\User;
 
 use App\Notifications\User\PasswordResetInformation;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class PasswordResetListener
+class PasswordResetListener implements ShouldQueue
 {
+    public $queue = 'listeners';
+
     /**
      * Create the event listener.
      */
