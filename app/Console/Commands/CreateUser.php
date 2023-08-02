@@ -12,21 +12,21 @@ use function Laravel\Prompts\password;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
-final class CreateAdmin extends Command
+final class CreateUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'admin:create';
+    protected $signature = 'user:create';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create admin user';
+    protected $description = 'Create user';
 
     /**
      * Create a new command instance.

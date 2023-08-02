@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Commands;
 
-use App\Console\Commands\CreateAdmin;
+use App\Console\Commands\CreateUser;
 
-it('creates an admin', function (): void {
-    $this->artisan(CreateAdmin::class)
+it('creates a user', function (): void {
+    $this->artisan(CreateUser::class)
         ->expectsQuestion('What first name do you want?', 'John')
         ->expectsQuestion('What last name?', 'Doe')
         ->expectsQuestion('What username?', 'john_doe')
@@ -19,8 +19,8 @@ it('creates an admin', function (): void {
         ->assertSuccessful();
 });
 
-it('does not create an admin if passwords do not match', function (): void {
-    $this->artisan(CreateAdmin::class)
+it('does not create a user if passwords do not match', function (): void {
+    $this->artisan(CreateUser::class)
         ->expectsQuestion('What first name do you want?', 'John')
         ->expectsQuestion('What last name?', 'Doe')
         ->expectsQuestion('What username?', 'john_doe')
