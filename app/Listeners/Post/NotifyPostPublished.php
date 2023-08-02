@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NotifyPostPublished implements ShouldQueue
 {
+    public $queue = 'listeners';
+
     /**
      * Create the event listener.
      */

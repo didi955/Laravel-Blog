@@ -10,6 +10,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NotifyScheduledPostCreated implements ShouldQueue
 {
+    public $queue = 'listeners';
+
     /**
      * Create the event listener.
      */
