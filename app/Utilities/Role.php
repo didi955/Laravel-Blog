@@ -9,6 +9,11 @@ enum Role: string
     case ADMIN = 'Admin';
     case MEMBER = 'Member';
 
+    public static function toArray(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+
     public function power(): int
     {
         return match ($this->value) {
