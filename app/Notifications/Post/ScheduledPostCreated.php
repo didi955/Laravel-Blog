@@ -38,9 +38,12 @@ class ScheduledPostCreated extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage())
+            ->subject('Scheduled Post created !')
             ->line('Your Delayed Post has been created !')
             ->line('It will be published at: ' . $this->post->published_at->format('Y/m/d H:i'))
-            ->line('You will be notified when it will be published !');
+            ->line('You will be notified when it will be published !')
+            ->line('You can view it here:')
+            ->action('View Post', route('posts.show', $this->post->slug));
     }
 
     /**
