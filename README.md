@@ -32,14 +32,56 @@ Here are the major new features :
 I am aware that the development is not yet perfect and still has some bugs that may hinder the user's functional experience.
 That's why the contribution is useful for me.
 
+## Prerequisites
+
+* PHP 8.2+
+* Composer
+* NPM
+
 ## Installation
 
-TODO
+1. Clone the repo
+   ```sh
+   git clone https://github.com/didi955/Laravel-Blog.git
+   ```
+2. Install Composer packages
+   ```sh
+   composer install
+   ```
+4. Install NPM packages
+   ```sh
+   npm install
+   ```
+5. Copy env file
+   ```sh
+   cp .env.example .env
+   ```
+6. Configure env file
+7. Generate Key
+   ```sh
+   php artisan key:generate
+   ```
+8. Run migration
+   ```sh
+   php artisan migrate
+   ```
+9. Build assets
+   ```sh
+   npm run build / npm run dev
+   ```
+10. Start dev server
+   ```sh
+   php artisan serve
+   ```
+11. Run queue workers (dev)
+   ```sh
+   php artisan queue:work --queue=listeners,notifications,publishing
+   ```
+12. Go to your web browser
+    like : http//127.0.0.1:8080
 
 
 ## Contributing
 
 Thank you for considering contributing to this project.
-
-TODO
 
