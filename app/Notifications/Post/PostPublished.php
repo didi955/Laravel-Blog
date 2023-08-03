@@ -37,9 +37,11 @@ class PostPublished extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $subject = $this->wasDelayed ? 'Scheduled Post published !' : 'Post published !';
         $title = $this->wasDelayed ? 'Your Scheduled Post has been published !' : 'Your Post has been published !';
 
         return (new MailMessage())
+            ->subject($subject)
             ->line($title)
             ->line('You can view it here:')
             ->action('View Post', route('posts.show', $this->post->slug));
