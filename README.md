@@ -26,6 +26,7 @@ Here are the major new features :
 - Messages & timezones user's localization
 - Allow registered users to "follow" certain authors. When they publish a new post, an email should be delivered to all followers.
 - Ban system
+- Mobile friendly
 
 ## Warning
 
