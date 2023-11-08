@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -37,7 +38,7 @@ class BookmarkController extends Controller
         try {
             auth()->user()->bookmarks()->where('post_id', $post->id)->first()
                 ->delete();
-        } catch (\Exception) {
+        } catch (Exception) {
             return back()->with('error', 'Bookmark not found');
         }
 

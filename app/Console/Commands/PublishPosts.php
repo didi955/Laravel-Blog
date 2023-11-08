@@ -32,7 +32,7 @@ class PublishPosts extends Command
     {
         Post::where('published_at', '<=', now())
             ->where('status', PostStatus::PENDING)
-            ->each(function (Post $post) {
+            ->each(function (Post $post): void {
                 $post->update([
                     'status' => PostStatus::PUBLISHED,
                 ]);
