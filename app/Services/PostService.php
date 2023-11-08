@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Events\Post\PostCreated;
 use App\Events\Post\PostDeleted;
 use App\Events\Post\PostPublished;
-use App\Jobs\PublishPost;
 use App\Models\Post;
 use App\Utilities\PostStatus;
 use Carbon\Carbon;
@@ -44,7 +43,7 @@ class PostService
 
         $post->update($attributes);
 
-        $this->broadcast($post, true);
+        $this->broadcast($post);
 
     }
 
@@ -73,13 +72,10 @@ class PostService
         return $attributes;
     }
 
-    public function broadcast(Post $post, bool $wasEdit = false): void
+    public function broadcast(Post $post): void
     {
-        if (PostStatus::PUBLISHED === $post->status && ! $wasEdit) {
+        if (PostStatus::PUBLISHED === $post->status && $post->published_at->lte(now())) {
             PostPublished::dispatch($post);
-        } elseif (PostStatus::PENDING === $post->status) {
-            PublishPost::dispatch($post, $post->published_at, $wasEdit)
-                ->delay($post->published_at);
         }
     }
     private function storeThumbnail(): false|string
