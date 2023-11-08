@@ -28,7 +28,7 @@ class PostFactory extends Factory
             'category_id' => Category::factory(),
             'thumbnail' => 'thumbnails/default-thumbnail.png',
             'title' => $this->faker->words(3, true),
-            'slug' => $this->faker->slug(),
+            'slug' => $this->faker->slug(8),
             'status' => PostStatus::PUBLISHED->value,
             'published_at' => $this->faker->dateTimeBetween('-1 year'),
             'excerpt' => '<p>' . $this->faker->paragraph(2) . '</p>',
