@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -28,7 +29,7 @@ class UserController extends Controller
 
             $this->userService->update($attributes);
 
-        } catch (\Exception) {
+        } catch (Exception) {
             return back()->with(
                 'error',
                 'An error occurred while updating your profile'

@@ -48,7 +48,7 @@ class PostController extends Controller
         return $this->store($request, true);
     }
 
-    public function store(PostRequest $request, bool $draft=false): RedirectResponse
+    public function store(PostRequest $request, bool $draft = false): RedirectResponse
     {
         $attributes = array_merge($this->validatePost($request, $draft), [
             'user_id' => auth()->id(),
