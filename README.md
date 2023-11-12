@@ -76,7 +76,7 @@ That's why the contribution is useful for me.
    ```
 11. Run queue workers (dev)
    ```sh
-   php artisan queue:work --queue=listeners,notifications,publishing
+   php artisan queue:work --queue=listeners,notifications,default
    ```
 12. Go to your web browser
     like : http//127.0.0.1:8080
