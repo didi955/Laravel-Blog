@@ -80,7 +80,7 @@ That's why the contribution is useful for me.
    ```
 12. Setup cron-job every minutes for run posts:publish command
     
-14. Go to your web browser
+13. Go to your web browser
     like : http//127.0.0.1:8080
 
 
