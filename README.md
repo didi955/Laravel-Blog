@@ -78,7 +78,9 @@ That's why the contribution is useful for me.
    ```sh
    php artisan queue:work --queue=listeners,notifications,default
    ```
-12. Go to your web browser
+12. Setup cron-job every minutes for run posts:publish command
+    
+14. Go to your web browser
     like : http//127.0.0.1:8080
 
 
