@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PasswordResetListener implements ShouldQueue
 {
-    public $queue = 'listeners';
+    public string $queue = 'listeners';
 
     /**
      * Create the event listener.
