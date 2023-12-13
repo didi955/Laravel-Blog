@@ -31,7 +31,7 @@ Here are the major new features :
 ## Warning
 
 I am aware that the development is not perfect and still has some bugs that may hinder the user's functional experience.
-That's why the contribution is useful for me because for now i paused the development in this project.
+That's why the contribution is useful for me because for now, i paused the development of this project.
 
 ## Prerequisites
 
