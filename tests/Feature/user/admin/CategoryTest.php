@@ -41,6 +41,10 @@ it('can not view categories', function (): void {
         ]
     );
 
+    $this->actingAs($user)
+        ->get(route('admin.categories.index'))
+        ->assertRedirect(route('verification.notice'));
+
 });
 
 it('can create new category', function (): void {
@@ -74,6 +78,23 @@ it('can not create new category', function (): void {
     $this->actingAs($user)
         ->get(route('admin.categories.index'))
         ->assertForbidden();
+
+    $user = User::factory()->create(
+        [
+            'role' => Role::ADMIN->value,
+            'email_verified_at' => null,
+        ]
+    );
+
+    $this->actingAs($user)
+        ->get(route('admin.categories.index'))
+        ->assertRedirect(route('verification.notice'));
+
+    $this->actingAs($user)
+        ->post(route('admin.categories.store'), ['name' => 'Category'])
+        ->assertRedirect();
+
+    $this->assertDatabaseMissing('categories', ['name' => 'Category']);
 
 });
 

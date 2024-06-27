@@ -59,7 +59,7 @@ Route::middleware(['auth'])->group(function (): void {
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'resend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 
-Route::middleware(['auth', 'can:admin'])->group(function (): void {
+Route::middleware(['auth', 'can:admin', 'verified'])->group(function (): void {
     Route::get('/admin/posts', [Admin\PostController::class, 'index'])->name('admin.posts.index');
     Route::post('/admin/posts', [Admin\PostController::class, 'store'])->name('admin.posts.store');
     Route::get('/admin/posts/create', [Admin\PostController::class, 'create'])->name('admin.posts.create');

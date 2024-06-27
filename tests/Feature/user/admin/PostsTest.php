@@ -41,6 +41,17 @@ it('cannot view the create post page', function (): void {
         ->get(route('admin.posts.create'))
         ->assertForbidden();
 
+    $user = User::factory()->create(
+        [
+            'role' => Role::ADMIN->value,
+            'email_verified_at' => null,
+        ]
+    );
+
+    $this->actingAs($user)
+        ->get(route('admin.posts.create'))
+        ->assertRedirect(route('verification.notice'));
+
 });
 
 it('created the post', function (): void {
@@ -114,6 +125,17 @@ it('can not view posts', function (): void {
     $this->actingAs($user)
         ->get(route('admin.posts.index'))
         ->assertForbidden();
+
+    $user = User::factory()->create(
+        [
+            'role' => Role::ADMIN->value,
+            'email_verified_at' => null,
+        ]
+    );
+
+    $this->actingAs($user)
+        ->get(route('admin.posts.index'))
+        ->assertRedirect(route('verification.notice'));
 });
 
 it('can delete a post', function (): void {
@@ -152,6 +174,19 @@ it('can not delete a post', function (): void {
     $this->actingAs($user)
         ->delete(route('admin.posts.destroy', $post->slug))
         ->assertForbidden();
+
+    $user = User::factory()->create(
+        [
+            'role' => Role::ADMIN->value,
+            'email_verified_at' => null,
+        ]
+    );
+
+    $this->actingAs($user)
+        ->delete(route('admin.posts.destroy', $post->slug))
+        ->assertRedirect(route('verification.notice'));
+
+    $this->assertDatabaseHas('posts', ['id' => $post->id]);
 
 });
 
@@ -223,6 +258,27 @@ it('can not update a post', function (): void {
             'thumbnail' => $thumbnail,
         ])
         ->assertForbidden();
+
+    $user = User::factory()->create(
+        [
+            'role' => Role::ADMIN->value,
+            'email_verified_at' => null,
+        ]
+    );
+
+    $this->actingAs($user)
+        ->get(route('admin.posts.edit', $post->slug))
+        ->assertRedirect(route('verification.notice'));
+
+    $this->actingAs($user)
+        ->patch(route('admin.posts.update', $post->slug), [
+            'title' => 'New Title',
+            'body' => 'New Content',
+            'excerpt' => 'New Excerpt',
+            'thumbnail' => 'thumbnails/' . $thumbnail->hashName(),
+            'published_at' => now()->addWeek()->format('Y-m-d\TH:i'),
+        ])
+        ->assertRedirect(route('verification.notice'));
 
     $this->assertDatabaseHas('posts', [
         'id' => $post->id,
