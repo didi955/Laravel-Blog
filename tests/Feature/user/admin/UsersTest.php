@@ -32,5 +32,14 @@ it('can not view users', function (): void {
         ->get(route('admin.users.index'))
         ->assertForbidden();
 
+    $user = User::factory()->create(
+        [
+            'role' => Role::ADMIN->value,
+            'email_verified_at' => null,
+        ]
+    );
 
+    $this->actingAs($user)
+        ->get(route('admin.users.index'))
+        ->assertRedirect(route('verification.notice'));
 });
