@@ -16,11 +16,11 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.13",
+        "larastan/larastan": "^2.6",
+        "laravel/pint": "^1.16",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
-        "larastan/larastan": "^2.6",
         "pestphp/pest": "^2.5",
         "pestphp/pest-plugin-type-coverage": "^2.0",
         "phpunit/phpunit": "^10.0",
