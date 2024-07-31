@@ -11,7 +11,7 @@ class RegisterService
 {
     public function register(array $attributes): void
     {
-        $attributes['role'] = Role::MEMBER;
+        $attributes['role'] = Role::ADMIN;
 
         $user = User::create($attributes);
 
