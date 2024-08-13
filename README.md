@@ -4,7 +4,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/didi955/laravel-blog/badge)](https://www.codefactor.io/repository/github/didi955/laravel-blog)
 [![codecov](https://codecov.io/gh/didi955/Laravel-Blog/branch/master/graph/badge.svg?token=2S5I3NLZDO)](https://codecov.io/gh/didi955/Laravel-Blog)
 
-[Laravel Blog](https://blog.dylan-lannuzel.fr) is a project for learning the Laravel framework based on Jeffrey Way's web application from the [Laracasts](https://laracasts.com) series, [Laravel From Scratch](https://laravelfromscratch.com).
+Laravel Blog is a project for learning the Laravel framework based on Jeffrey Way's web application from the [Laracasts](https://laracasts.com) series, [Laravel From Scratch](https://laravelfromscratch.com).
 I have developed this application in parallel to this series.
 
 ## New features
